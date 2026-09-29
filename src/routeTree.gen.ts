@@ -10,33 +10,197 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AgendamentoRouteImport } from './routes/agendamento'
+import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as TrabalhosRouteImport } from './routes/trabalhos'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminAgendaRouteImport } from './routes/admin.agenda'
+import { Route as AdminClientesRouteImport } from './routes/admin.clientes'
+import { Route as AdminConfiguracoesRouteImport } from './routes/admin.configuracoes'
+import { Route as AdminFinanceiroRouteImport } from './routes/admin.financeiro'
+import { Route as AdminProcedimentosRouteImport } from './routes/admin.procedimentos'
+import { Route as AdminRelatoriosRouteImport } from './routes/admin.relatorios'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgendamentoRoute = AgendamentoRouteImport.update({
+  id: '/agendamento',
+  path: '/agendamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicosRoute = ServicosRouteImport.update({
+  id: '/servicos',
+  path: '/servicos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrabalhosRoute = TrabalhosRouteImport.update({
+  id: '/trabalhos',
+  path: '/trabalhos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAgendaRoute = AdminAgendaRouteImport.update({
+  id: '/agenda',
+  path: '/agenda',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminClientesRoute = AdminClientesRouteImport.update({
+  id: '/clientes',
+  path: '/clientes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminConfiguracoesRoute = AdminConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFinanceiroRoute = AdminFinanceiroRouteImport.update({
+  id: '/financeiro',
+  path: '/financeiro',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProcedimentosRoute = AdminProcedimentosRouteImport.update({
+  id: '/procedimentos',
+  path: '/procedimentos',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRelatoriosRoute = AdminRelatoriosRouteImport.update({
+  id: '/relatorios',
+  path: '/relatorios',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/agendamento': typeof AgendamentoRoute
+  '/contato': typeof ContatoRoute
+  '/servicos': typeof ServicosRoute
+  '/sobre': typeof SobreRoute
+  '/trabalhos': typeof TrabalhosRoute
+  '/admin/agenda': typeof AdminAgendaRoute
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/configuracoes': typeof AdminConfiguracoesRoute
+  '/admin/financeiro': typeof AdminFinanceiroRoute
+  '/admin/procedimentos': typeof AdminProcedimentosRoute
+  '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agendamento': typeof AgendamentoRoute
+  '/contato': typeof ContatoRoute
+  '/servicos': typeof ServicosRoute
+  '/sobre': typeof SobreRoute
+  '/trabalhos': typeof TrabalhosRoute
+  '/admin/agenda': typeof AdminAgendaRoute
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/configuracoes': typeof AdminConfiguracoesRoute
+  '/admin/financeiro': typeof AdminFinanceiroRoute
+  '/admin/procedimentos': typeof AdminProcedimentosRoute
+  '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/agendamento': typeof AgendamentoRoute
+  '/contato': typeof ContatoRoute
+  '/servicos': typeof ServicosRoute
+  '/sobre': typeof SobreRoute
+  '/trabalhos': typeof TrabalhosRoute
+  '/admin/agenda': typeof AdminAgendaRoute
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/configuracoes': typeof AdminConfiguracoesRoute
+  '/admin/financeiro': typeof AdminFinanceiroRoute
+  '/admin/procedimentos': typeof AdminProcedimentosRoute
+  '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/agendamento'
+    | '/contato'
+    | '/servicos'
+    | '/sobre'
+    | '/trabalhos'
+    | '/admin/agenda'
+    | '/admin/clientes'
+    | '/admin/configuracoes'
+    | '/admin/financeiro'
+    | '/admin/procedimentos'
+    | '/admin/relatorios'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/agendamento'
+    | '/contato'
+    | '/servicos'
+    | '/sobre'
+    | '/trabalhos'
+    | '/admin/agenda'
+    | '/admin/clientes'
+    | '/admin/configuracoes'
+    | '/admin/financeiro'
+    | '/admin/procedimentos'
+    | '/admin/relatorios'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/agendamento'
+    | '/contato'
+    | '/servicos'
+    | '/sobre'
+    | '/trabalhos'
+    | '/admin/agenda'
+    | '/admin/clientes'
+    | '/admin/configuracoes'
+    | '/admin/financeiro'
+    | '/admin/procedimentos'
+    | '/admin/relatorios'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  AgendamentoRoute: typeof AgendamentoRoute
+  ContatoRoute: typeof ContatoRoute
+  ServicosRoute: typeof ServicosRoute
+  SobreRoute: typeof SobreRoute
+  TrabalhosRoute: typeof TrabalhosRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +212,130 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agendamento': {
+      id: '/agendamento'
+      path: '/agendamento'
+      fullPath: '/agendamento'
+      preLoaderRoute: typeof AgendamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicos': {
+      id: '/servicos'
+      path: '/servicos'
+      fullPath: '/servicos'
+      preLoaderRoute: typeof ServicosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trabalhos': {
+      id: '/trabalhos'
+      path: '/trabalhos'
+      fullPath: '/trabalhos'
+      preLoaderRoute: typeof TrabalhosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/agenda': {
+      id: '/admin/agenda'
+      path: '/agenda'
+      fullPath: '/admin/agenda'
+      preLoaderRoute: typeof AdminAgendaRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/clientes': {
+      id: '/admin/clientes'
+      path: '/clientes'
+      fullPath: '/admin/clientes'
+      preLoaderRoute: typeof AdminClientesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/configuracoes': {
+      id: '/admin/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/admin/configuracoes'
+      preLoaderRoute: typeof AdminConfiguracoesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/financeiro': {
+      id: '/admin/financeiro'
+      path: '/financeiro'
+      fullPath: '/admin/financeiro'
+      preLoaderRoute: typeof AdminFinanceiroRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/procedimentos': {
+      id: '/admin/procedimentos'
+      path: '/procedimentos'
+      fullPath: '/admin/procedimentos'
+      preLoaderRoute: typeof AdminProcedimentosRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/relatorios': {
+      id: '/admin/relatorios'
+      path: '/relatorios'
+      fullPath: '/admin/relatorios'
+      preLoaderRoute: typeof AdminRelatoriosRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminAgendaRoute: typeof AdminAgendaRoute
+  AdminClientesRoute: typeof AdminClientesRoute
+  AdminConfiguracoesRoute: typeof AdminConfiguracoesRoute
+  AdminFinanceiroRoute: typeof AdminFinanceiroRoute
+  AdminProcedimentosRoute: typeof AdminProcedimentosRoute
+  AdminRelatoriosRoute: typeof AdminRelatoriosRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAgendaRoute: AdminAgendaRoute,
+  AdminClientesRoute: AdminClientesRoute,
+  AdminConfiguracoesRoute: AdminConfiguracoesRoute,
+  AdminFinanceiroRoute: AdminFinanceiroRoute,
+  AdminProcedimentosRoute: AdminProcedimentosRoute,
+  AdminRelatoriosRoute: AdminRelatoriosRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  AgendamentoRoute: AgendamentoRoute,
+  ContatoRoute: ContatoRoute,
+  ServicosRoute: ServicosRoute,
+  SobreRoute: SobreRoute,
+  TrabalhosRoute: TrabalhosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
