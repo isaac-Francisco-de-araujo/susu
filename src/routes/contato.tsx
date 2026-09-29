@@ -1,3 +1,4 @@
+import { whatsappLink } from "@/lib/config";
 import { createFileRoute } from "@tanstack/react-router";
 import { Clock3, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 import { PublicLayout } from "@/components/public-shell";
