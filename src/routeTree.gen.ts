@@ -17,6 +17,10 @@ import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as TrabalhosRouteImport } from './routes/trabalhos'
 import { Route as AdminAgendaRouteImport } from './routes/admin.agenda'
+import { Route as AdminClientesRouteImport } from './routes/admin.clientes'
+import { Route as AdminFinanceiroRouteImport } from './routes/admin.financeiro'
+import { Route as AdminProcedimentosRouteImport } from './routes/admin.procedimentos'
+import { Route as AdminRelatoriosRouteImport } from './routes/admin.relatorios'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +62,26 @@ const AdminAgendaRoute = AdminAgendaRouteImport.update({
   path: '/agenda',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminClientesRoute = AdminClientesRouteImport.update({
+  id: '/clientes',
+  path: '/clientes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFinanceiroRoute = AdminFinanceiroRouteImport.update({
+  id: '/financeiro',
+  path: '/financeiro',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProcedimentosRoute = AdminProcedimentosRouteImport.update({
+  id: '/procedimentos',
+  path: '/procedimentos',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRelatoriosRoute = AdminRelatoriosRouteImport.update({
+  id: '/relatorios',
+  path: '/relatorios',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +92,10 @@ export interface FileRoutesByFullPath {
   '/sobre': typeof SobreRoute
   '/trabalhos': typeof TrabalhosRoute
   '/admin/agenda': typeof AdminAgendaRoute
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/financeiro': typeof AdminFinanceiroRoute
+  '/admin/procedimentos': typeof AdminProcedimentosRoute
+  '/admin/relatorios': typeof AdminRelatoriosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +106,10 @@ export interface FileRoutesByTo {
   '/sobre': typeof SobreRoute
   '/trabalhos': typeof TrabalhosRoute
   '/admin/agenda': typeof AdminAgendaRoute
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/financeiro': typeof AdminFinanceiroRoute
+  '/admin/procedimentos': typeof AdminProcedimentosRoute
+  '/admin/relatorios': typeof AdminRelatoriosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +121,10 @@ export interface FileRoutesById {
   '/sobre': typeof SobreRoute
   '/trabalhos': typeof TrabalhosRoute
   '/admin/agenda': typeof AdminAgendaRoute
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/financeiro': typeof AdminFinanceiroRoute
+  '/admin/procedimentos': typeof AdminProcedimentosRoute
+  '/admin/relatorios': typeof AdminRelatoriosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +137,10 @@ export interface FileRouteTypes {
     | '/sobre'
     | '/trabalhos'
     | '/admin/agenda'
+    | '/admin/clientes'
+    | '/admin/financeiro'
+    | '/admin/procedimentos'
+    | '/admin/relatorios'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +151,10 @@ export interface FileRouteTypes {
     | '/sobre'
     | '/trabalhos'
     | '/admin/agenda'
+    | '/admin/clientes'
+    | '/admin/financeiro'
+    | '/admin/procedimentos'
+    | '/admin/relatorios'
   id:
     | '__root__'
     | '/'
@@ -121,6 +165,10 @@ export interface FileRouteTypes {
     | '/sobre'
     | '/trabalhos'
     | '/admin/agenda'
+    | '/admin/clientes'
+    | '/admin/financeiro'
+    | '/admin/procedimentos'
+    | '/admin/relatorios'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -191,15 +239,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAgendaRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/clientes': {
+      id: '/admin/clientes'
+      path: '/clientes'
+      fullPath: '/admin/clientes'
+      preLoaderRoute: typeof AdminClientesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/financeiro': {
+      id: '/admin/financeiro'
+      path: '/financeiro'
+      fullPath: '/admin/financeiro'
+      preLoaderRoute: typeof AdminFinanceiroRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/procedimentos': {
+      id: '/admin/procedimentos'
+      path: '/procedimentos'
+      fullPath: '/admin/procedimentos'
+      preLoaderRoute: typeof AdminProcedimentosRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/relatorios': {
+      id: '/admin/relatorios'
+      path: '/relatorios'
+      fullPath: '/admin/relatorios'
+      preLoaderRoute: typeof AdminRelatoriosRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
   AdminAgendaRoute: typeof AdminAgendaRoute
+  AdminClientesRoute: typeof AdminClientesRoute
+  AdminFinanceiroRoute: typeof AdminFinanceiroRoute
+  AdminProcedimentosRoute: typeof AdminProcedimentosRoute
+  AdminRelatoriosRoute: typeof AdminRelatoriosRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAgendaRoute: AdminAgendaRoute,
+  AdminClientesRoute: AdminClientesRoute,
+  AdminFinanceiroRoute: AdminFinanceiroRoute,
+  AdminProcedimentosRoute: AdminProcedimentosRoute,
+  AdminRelatoriosRoute: AdminRelatoriosRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
