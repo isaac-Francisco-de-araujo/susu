@@ -13,3 +13,5 @@
 - Public and professional experiences use separate TanStack routes; this keeps customer navigation and business workflows independently shareable.
 - Admin feature pages share `AdminShell`; this preserves one responsive navigation model across all professional workflows.
 - Any route that owns nested admin pages remains an Outlet-only layout; dashboard content lives in its index leaf so every child can render.
+- Public booking happens only via WhatsApp links from src/lib/config.ts; no internal booking route.
+- Services use one store (src/lib/services-store.ts) shared by site and admin; replace with API later.

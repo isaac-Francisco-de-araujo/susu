@@ -1,6 +1,20 @@
-import { Link } from "@tanstack/react-router";
-import { Clock3, Footprints, Gem, Heart, Sparkles } from "lucide-react";
-import { services, money } from "@/lib/mock-data";
+import { Clock3, MessageCircle } from "lucide-react";
+import { money } from "@/lib/mock-data";
+import { useActiveServices } from "@/lib/services-store";
+import { bookingMessage, whatsappLink } from "@/lib/config";
 import { Card } from "./ui-kit";
-const icons = { Sparkles, Footprints, Heart, Gem };
-export function ServiceGrid({ limit }: { limit?: number }) { return <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{services.slice(0, limit).map((service, index) => { const Icon = icons[service.icon as keyof typeof icons]; return <Card key={service.id} className="group flex flex-col p-5 transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-card"><div className="flex items-start justify-between"><span className="grid h-11 w-11 place-items-center rounded-lg bg-accent text-primary"><Icon className="h-5 w-5" /></span><span className="font-display text-xl font-semibold text-primary">{money(service.price)}</span></div><p className="mt-5 text-xs font-bold uppercase text-muted-foreground">{service.short}</p><h3 className="mt-1 font-display text-xl font-semibold">{service.name}</h3><p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">{service.description}</p><div className="mt-5 flex items-center justify-between border-t border-border pt-4"><span className="flex items-center gap-1.5 text-xs text-muted-foreground"><Clock3 className="h-4 w-4" />{service.duration}</span><Link to="/agendamento" search={{ service: service.id }} className="text-sm font-bold text-primary">Agendar →</Link></div></Card>; })}</div>; }
+
+export function ServiceGrid({ limit }: { limit?: number }) {
+  const services = useActiveServices().slice(0, limit);
+  if (!services.length) return <p className="text-sm text-muted-foreground">Nenhum procedimento disponível no momento.</p>;
+  return <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{services.map((service) => (
+    <Card key={service.id} className="group flex flex-col overflow-hidden transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-card">
+      <div className="aspect-[4/3] overflow-hidden bg-muted"><img src={service.image} alt={service.name} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" /></div>
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex items-start justify-between gap-3"><h3 className="font-display text-xl font-semibold">{service.name}</h3><span className="shrink-0 font-display text-xl font-semibold text-primary">{money(service.price)}</span></div>
+        <p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">{service.description}</p>
+        {service.duration && <span className="mt-4 flex items-center gap-1.5 text-xs text-muted-foreground"><Clock3 className="h-4 w-4" />{service.duration}</span>}
+        <a href={whatsappLink(bookingMessage(service.name))} target="_blank" rel="noreferrer" className="mt-4 flex h-11 items-center justify-center gap-2 rounded-lg bg-primary text-sm font-bold text-primary-foreground shadow-soft transition hover:opacity-90"><MessageCircle className="h-4 w-4" />Agendar aqui</a>
+      </div>
+    </Card>))}</div>;
+}
