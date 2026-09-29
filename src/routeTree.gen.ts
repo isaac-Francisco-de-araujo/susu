@@ -16,6 +16,7 @@ import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as TrabalhosRouteImport } from './routes/trabalhos'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAgendaRouteImport } from './routes/admin.agenda'
 import { Route as AdminClientesRouteImport } from './routes/admin.clientes'
 import { Route as AdminConfiguracoesRouteImport } from './routes/admin.configuracoes'
@@ -57,6 +58,11 @@ const TrabalhosRoute = TrabalhosRouteImport.update({
   id: '/trabalhos',
   path: '/trabalhos',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AdminAgendaRoute = AdminAgendaRouteImport.update({
   id: '/agenda',
@@ -103,10 +109,10 @@ export interface FileRoutesByFullPath {
   '/admin/financeiro': typeof AdminFinanceiroRoute
   '/admin/procedimentos': typeof AdminProcedimentosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
   '/agendamento': typeof AgendamentoRoute
   '/contato': typeof ContatoRoute
   '/servicos': typeof ServicosRoute
@@ -118,6 +124,7 @@ export interface FileRoutesByTo {
   '/admin/financeiro': typeof AdminFinanceiroRoute
   '/admin/procedimentos': typeof AdminProcedimentosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -134,6 +141,7 @@ export interface FileRoutesById {
   '/admin/financeiro': typeof AdminFinanceiroRoute
   '/admin/procedimentos': typeof AdminProcedimentosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -151,10 +159,10 @@ export interface FileRouteTypes {
     | '/admin/financeiro'
     | '/admin/procedimentos'
     | '/admin/relatorios'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/agendamento'
     | '/contato'
     | '/servicos'
@@ -166,6 +174,7 @@ export interface FileRouteTypes {
     | '/admin/financeiro'
     | '/admin/procedimentos'
     | '/admin/relatorios'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/admin/financeiro'
     | '/admin/procedimentos'
     | '/admin/relatorios'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -244,6 +254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrabalhosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/agenda': {
       id: '/admin/agenda'
       path: '/agenda'
@@ -296,6 +313,7 @@ interface AdminRouteChildren {
   AdminFinanceiroRoute: typeof AdminFinanceiroRoute
   AdminProcedimentosRoute: typeof AdminProcedimentosRoute
   AdminRelatoriosRoute: typeof AdminRelatoriosRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -305,6 +323,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminFinanceiroRoute: AdminFinanceiroRoute,
   AdminProcedimentosRoute: AdminProcedimentosRoute,
   AdminRelatoriosRoute: AdminRelatoriosRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
