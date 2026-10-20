@@ -1,5 +1,13 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1792521101571,
+      "tag": "0000_pink_petal_backend",
+      "breakpoints": true
+    }
+  ]
 }
