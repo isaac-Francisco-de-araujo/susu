@@ -7,11 +7,157 @@
 @theme inline {
   --font-sans: "Manrope", sans-serif;
   --font-display: "DM Serif Display", serif;
-  --radius-sm: calc(var(--radius) - 4px); --radius-md: calc(var(--radius) - 2px); --radius-lg: var(--radius); --radius-xl: calc(var(--radius) + 4px); --radius-2xl: calc(var(--radius) + 8px);
-  --color-background: var(--background); --color-foreground: var(--foreground); --color-card: var(--card); --color-card-foreground: var(--card-foreground); --color-popover: var(--popover); --color-popover-foreground: var(--popover-foreground); --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground); --color-secondary: var(--secondary); --color-secondary-foreground: var(--secondary-foreground); --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground); --color-accent: var(--accent); --color-accent-foreground: var(--accent-foreground); --color-destructive: var(--destructive); --color-destructive-foreground: var(--destructive-foreground); --color-border: var(--border); --color-input: var(--input); --color-ring: var(--ring); --color-success: var(--success); --color-success-foreground: var(--success-foreground); --color-warning: var(--warning); --color-info: var(--info); --color-overlay: var(--overlay); --color-whatsapp: var(--whatsapp); --color-whatsapp-foreground: var(--whatsapp-foreground); --color-rose-soft: var(--rose-soft); --color-admin: var(--admin); --color-sidebar: var(--sidebar); --color-sidebar-foreground: var(--sidebar-foreground); --color-sidebar-primary: var(--sidebar-primary); --color-sidebar-primary-foreground: var(--sidebar-primary-foreground); --color-sidebar-accent: var(--sidebar-accent); --color-sidebar-accent-foreground: var(--sidebar-accent-foreground); --color-sidebar-border: var(--sidebar-border); --shadow-soft: var(--shadow-soft); --shadow-card: var(--shadow-card); --shadow-modal: var(--shadow-modal);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --color-overlay: var(--overlay);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-foreground: var(--whatsapp-foreground);
+  --color-rose-soft: var(--rose-soft);
+  --color-admin: var(--admin);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --shadow-soft: var(--shadow-soft);
+  --shadow-card: var(--shadow-card);
+  --shadow-modal: var(--shadow-modal);
 }
-:root { --radius:.65rem; --background:oklch(.99 .004 15); --foreground:oklch(.23 .025 350); --card:oklch(1 0 0); --card-foreground:oklch(.23 .025 350); --popover:oklch(1 0 0); --popover-foreground:oklch(.23 .025 350); --primary:oklch(.58 .15 8); --primary-foreground:oklch(.99 .004 15); --secondary:oklch(.95 .025 5); --secondary-foreground:oklch(.34 .07 355); --muted:oklch(.965 .008 5); --muted-foreground:oklch(.53 .025 350); --accent:oklch(.95 .035 8); --accent-foreground:oklch(.45 .11 3); --destructive:oklch(.58 .22 25); --destructive-foreground:oklch(.99 0 0); --border:oklch(.91 .016 5); --input:oklch(.89 .02 5); --ring:oklch(.65 .13 8); --success:oklch(.49 .13 155); --success-foreground:oklch(.99 0 0); --warning:oklch(.58 .13 75); --info:oklch(.52 .12 245); --overlay:oklch(.15 .015 350); --whatsapp:oklch(.62 .17 150); --whatsapp-foreground:oklch(1 0 0); --rose-soft:oklch(.965 .025 10); --admin:oklch(.975 .008 5); --sidebar:oklch(.995 .004 5); --sidebar-foreground:oklch(.23 .025 350); --sidebar-primary:oklch(.58 .15 8); --sidebar-primary-foreground:oklch(.99 .004 15); --sidebar-accent:oklch(.95 .035 8); --sidebar-accent-foreground:oklch(.45 .11 3); --sidebar-border:oklch(.91 .016 5); --shadow-soft:0 4px 18px color-mix(in oklab,var(--foreground) 7%,transparent); --shadow-card:0 14px 36px color-mix(in oklab,var(--foreground) 10%,transparent); --shadow-modal:0 28px 70px color-mix(in oklab,var(--foreground) 24%,transparent); }
-@layer base { *{border-color:var(--color-border);letter-spacing:0} html{scroll-behavior:smooth} body{margin:0;background:var(--color-background);color:var(--color-foreground);font-family:var(--font-sans);font-size:16px} button,a{cursor:pointer} button:disabled{cursor:not-allowed} input,select,textarea{font-size:16px} ::selection{background:color-mix(in oklab,var(--primary) 25%,transparent)} }
-.bg-hero-overlay{background:linear-gradient(90deg,color-mix(in oklab,var(--background) 96%,transparent) 0%,color-mix(in oklab,var(--background) 83%,transparent) 42%,color-mix(in oklab,var(--background) 8%,transparent) 76%)}
-@media(max-width:640px){.bg-hero-overlay{background:linear-gradient(90deg,color-mix(in oklab,var(--background) 93%,transparent) 0%,color-mix(in oklab,var(--background) 76%,transparent) 65%,color-mix(in oklab,var(--background) 25%,transparent) 100%)}}
-@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}.animate-rise{animation:rise .65s ease-out both}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+:root {
+  --radius: 0.65rem;
+  --background: oklch(0.99 0.004 15);
+  --foreground: oklch(0.23 0.025 350);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.23 0.025 350);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.23 0.025 350);
+  --primary: oklch(0.58 0.15 8);
+  --primary-foreground: oklch(0.99 0.004 15);
+  --secondary: oklch(0.95 0.025 5);
+  --secondary-foreground: oklch(0.34 0.07 355);
+  --muted: oklch(0.965 0.008 5);
+  --muted-foreground: oklch(0.53 0.025 350);
+  --accent: oklch(0.95 0.035 8);
+  --accent-foreground: oklch(0.45 0.11 3);
+  --destructive: oklch(0.58 0.22 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.91 0.016 5);
+  --input: oklch(0.89 0.02 5);
+  --ring: oklch(0.65 0.13 8);
+  --success: oklch(0.49 0.13 155);
+  --success-foreground: oklch(0.99 0 0);
+  --warning: oklch(0.58 0.13 75);
+  --info: oklch(0.52 0.12 245);
+  --overlay: oklch(0.15 0.015 350);
+  --whatsapp: oklch(0.62 0.17 150);
+  --whatsapp-foreground: oklch(1 0 0);
+  --rose-soft: oklch(0.965 0.025 10);
+  --admin: oklch(0.975 0.008 5);
+  --sidebar: oklch(0.995 0.004 5);
+  --sidebar-foreground: oklch(0.23 0.025 350);
+  --sidebar-primary: oklch(0.58 0.15 8);
+  --sidebar-primary-foreground: oklch(0.99 0.004 15);
+  --sidebar-accent: oklch(0.95 0.035 8);
+  --sidebar-accent-foreground: oklch(0.45 0.11 3);
+  --sidebar-border: oklch(0.91 0.016 5);
+  --shadow-soft: 0 4px 18px color-mix(in oklab, var(--foreground) 7%, transparent);
+  --shadow-card: 0 14px 36px color-mix(in oklab, var(--foreground) 10%, transparent);
+  --shadow-modal: 0 28px 70px color-mix(in oklab, var(--foreground) 24%, transparent);
+}
+@layer base {
+  * {
+    border-color: var(--color-border);
+    letter-spacing: 0;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    margin: 0;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 16px;
+  }
+  button,
+  a {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 25%, transparent);
+  }
+}
+.bg-hero-overlay {
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--background) 96%, transparent) 0%,
+    color-mix(in oklab, var(--background) 83%, transparent) 42%,
+    color-mix(in oklab, var(--background) 8%, transparent) 76%
+  );
+}
+@media (max-width: 640px) {
+  .bg-hero-overlay {
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--background) 93%, transparent) 0%,
+      color-mix(in oklab, var(--background) 76%, transparent) 65%,
+      color-mix(in oklab, var(--background) 25%, transparent) 100%
+    );
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-rise {
+  animation: rise 0.65s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
