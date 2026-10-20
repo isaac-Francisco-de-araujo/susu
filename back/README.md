@@ -4,12 +4,14 @@
 
 **Não existe backend real neste repositório.** O app é 100% frontend:
 
-- Dados de procedimentos, agenda, clientes e financeiro são simulados em `src/lib/mock-data.ts`.
-- Procedimentos editados no painel ficam só no `localStorage` do navegador (`src/lib/services-store.ts`, chave `studio-services`) — não são compartilhados entre aparelhos.
+- Dados de procedimentos, agenda, clientes e financeiro são simulados no frontend; os tipos e dados centrais ficam em `front/src/lib/mock-data.ts`.
+- Procedimentos editados no painel ficam só no `localStorage` do navegador (`front/src/lib/services-store.ts`, chave `studio-services`) — não são compartilhados entre aparelhos.
 - Agendamentos, clientes, lançamentos financeiros e configurações editados no painel vivem só na memória da página e somem ao recarregar.
 - Não há login: `/admin` é acessível a qualquer pessoa.
-- Agendamento público = link `wa.me` (`src/lib/config.ts`), sem gravação.
-- `src/server.ts` e `src/start.ts` são apenas o servidor de renderização (SSR) da plataforma, não uma API.
+- Agendamento público = link `wa.me` (`front/src/lib/config.ts`), sem gravação.
+- `front/src/server.ts` e `front/src/start.ts` são apenas o servidor de renderização (SSR) da plataforma, não uma API de negócio.
+
+Esta pasta reserva o espaço para o futuro backend Python/FastAPI. Nenhuma API, banco de dados, autenticação ou persistência real foi criada nesta reorganização.
 
 ## Estrutura planejada (Python/FastAPI)
 
@@ -28,6 +30,6 @@ back/
 ## O que falta para persistência real
 
 1. Banco de dados e modelos: Service, Appointment, Client, FinancialEntry, Expense, StudioSettings.
-2. Endpoints REST espelhando os tipos de `src/lib/mock-data.ts`.
+2. Endpoints REST espelhando os tipos de `front/src/lib/mock-data.ts`.
 3. Autenticação da profissional para proteger `/admin`.
-4. No frontend: trocar `mock-data.ts` e `services-store.ts` por chamadas à API (únicos pontos de troca).
+4. No frontend: substituir mocks e estados locais por chamadas à API; centralizar contratos em `front/src/lib/mock-data.ts` e o catálogo em `front/src/lib/services-store.ts`.
