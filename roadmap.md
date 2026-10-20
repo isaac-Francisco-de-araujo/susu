@@ -1,5 +1,9 @@
 # Roadmap
 
+- [ ] Criar backend real em camadas e banco protegido para procedimentos, clientes, agenda e faturamento
+- [ ] Disponibilizar operações reais com autenticação sem remover telas demonstrativas
+- [ ] Validar regras, lint, compilação e documentar configuração e limitações reais
+
 - [x] Mover frontend fisicamente para front/ com compatibilidade Lovable
 - [x] Documentar back/ e a estrutura final sem inventar API
 - [x] Validar lint, páginas e fluxos após a mudança
