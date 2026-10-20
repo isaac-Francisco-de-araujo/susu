@@ -3,6 +3,67 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Clock3, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 import { PublicLayout } from "@/components/public-shell";
 import { SectionTitle } from "@/components/ui-kit";
-export const Route=createFileRoute("/contato")({head:()=>({meta:[{title:"Contato | Studio Bella"},{name:"description",content:"Fale com o Studio Bella e agende seu horário."},{property:"og:title",content:"Contato | Studio Bella"},{property:"og:description",content:"WhatsApp, Instagram, endereço e horários do Studio Bella."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:Page});
-const info=[[Phone,"WhatsApp","(11) 99999-9999"],[Instagram,"Instagram","@studiobella"],[MapPin,"Endereço","Rua das Flores, 120 — Centro"],[Clock3,"Atendimento","Terça a sábado, das 9h às 19h"]] as const;
-function Page(){return <PublicLayout><section className="bg-rose-soft py-16 sm:py-24"><div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><SectionTitle eyebrow="Contato" title="Vai ser um prazer cuidar de você" copy="Escolha seu canal preferido. Respondemos assim que possível durante o horário de atendimento."/></div></section><section className="py-16"><div className="mx-auto grid max-w-5xl gap-4 px-4 sm:grid-cols-2 sm:px-6">{info.map(([Icon,title,text])=><div key={title} className="flex gap-4 rounded-xl border border-border bg-card p-5 shadow-soft"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-accent text-primary"><Icon className="h-5 w-5"/></span><div><h2 className="font-semibold">{title}</h2><p className="mt-1 text-sm text-muted-foreground">{text}</p></div></div>)}<a href={whatsappLink("Olá! Gostaria de agendar um horário no Studio Bella. 💕")} target="_blank" rel="noreferrer" className="mt-4 flex h-13 items-center justify-center gap-2 rounded-lg bg-whatsapp text-sm font-bold text-whatsapp-foreground sm:col-span-2"><MessageCircle className="h-5 w-5"/>Falar pelo WhatsApp</a></div></section></PublicLayout>}
+export const Route = createFileRoute("/contato")({
+  head: () => ({
+    meta: [
+      { title: "Contato | Studio Bella" },
+      { name: "description", content: "Fale com o Studio Bella e agende seu horário." },
+      { property: "og:title", content: "Contato | Studio Bella" },
+      {
+        property: "og:description",
+        content: "WhatsApp, Instagram, endereço e horários do Studio Bella.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: Page,
+});
+const info = [
+  [Phone, "WhatsApp", "(11) 99999-9999"],
+  [Instagram, "Instagram", "@studiobella"],
+  [MapPin, "Endereço", "Rua das Flores, 120 — Centro"],
+  [Clock3, "Atendimento", "Terça a sábado, das 9h às 19h"],
+] as const;
+function Page() {
+  return (
+    <PublicLayout>
+      <section className="bg-rose-soft py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionTitle
+            eyebrow="Contato"
+            title="Vai ser um prazer cuidar de você"
+            copy="Escolha seu canal preferido. Respondemos assim que possível durante o horário de atendimento."
+          />
+        </div>
+      </section>
+      <section className="py-16">
+        <div className="mx-auto grid max-w-5xl gap-4 px-4 sm:grid-cols-2 sm:px-6">
+          {info.map(([Icon, title, text]) => (
+            <div
+              key={title}
+              className="flex gap-4 rounded-xl border border-border bg-card p-5 shadow-soft"
+            >
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-accent text-primary">
+                <Icon className="h-5 w-5" />
+              </span>
+              <div>
+                <h2 className="font-semibold">{title}</h2>
+                <p className="mt-1 text-sm text-muted-foreground">{text}</p>
+              </div>
+            </div>
+          ))}
+          <a
+            href={whatsappLink("Olá! Gostaria de agendar um horário no Studio Bella. 💕")}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-4 flex h-13 items-center justify-center gap-2 rounded-lg bg-whatsapp text-sm font-bold text-whatsapp-foreground sm:col-span-2"
+          >
+            <MessageCircle className="h-5 w-5" />
+            Falar pelo WhatsApp
+          </a>
+        </div>
+      </section>
+    </PublicLayout>
+  );
+}

@@ -15,3 +15,4 @@
 - Any route that owns nested admin pages remains an Outlet-only layout; dashboard content lives in its index leaf so every child can render.
 - Public booking happens only via WhatsApp links from src/lib/config.ts; no internal booking route.
 - Services use one store (src/lib/services-store.ts) shared by site and admin; replace with API later.
+- Frontend stays at repo root (platform requires root package.json/vite.config/src); future backend lives in back/ (see back/README.md).

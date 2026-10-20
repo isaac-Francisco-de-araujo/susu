@@ -1,10 +1,178 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDownLeft, ArrowUpRight, CircleDollarSign, Plus, ReceiptText, WalletCards } from "lucide-react";
+import {
+  ArrowDownLeft,
+  ArrowUpRight,
+  CircleDollarSign,
+  Plus,
+  ReceiptText,
+  WalletCards,
+} from "lucide-react";
 import { useState } from "react";
 import { AdminShell } from "@/components/admin-shell";
 import { MetricCard, MiniBars } from "@/components/admin-widgets";
 import { Badge, Button, Card, Field, Modal, SelectField } from "@/components/ui-kit";
 import { money } from "@/lib/mock-data";
-export const Route=createFileRoute("/admin/financeiro")({head:()=>({meta:[{title:"Financeiro | Studio Bella"},{name:"description",content:"Controle financeiro e fluxo de caixa do Studio Bella."},{property:"og:title",content:"Financeiro | Studio Bella"},{property:"og:description",content:"Receitas, despesas e resultados."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:Page});
-const seed=[{id:1,type:"Entrada",desc:"Manicure + Pedicure",date:"29/09/2026",method:"Pix",value:60},{id:2,type:"Entrada",desc:"Esmaltação em gel",date:"29/09/2026",method:"Crédito",value:70},{id:3,type:"Despesa",desc:"Reposição de esmaltes",date:"28/09/2026",method:"Pix",value:185},{id:4,type:"Entrada",desc:"Pedicure",date:"28/09/2026",method:"Dinheiro",value:35}];
-function Page(){const[period,setPeriod]=useState("Mês");const[modal,setModal]=useState(false);const[items,setItems]=useState(seed);const save=(e:React.FormEvent<HTMLFormElement>)=>{e.preventDefault();const f=new FormData(e.currentTarget);setItems(x=>[{id:Date.now(),type:String(f.get("type")),desc:String(f.get("desc")),date:new Date().toLocaleDateString("pt-BR"),method:String(f.get("method")),value:Number(f.get("value"))},...x]);setModal(false)};return <AdminShell title="Financeiro" subtitle="Acompanhe a saúde do seu negócio" action={<Button size="sm" onClick={()=>setModal(true)}><Plus className="h-4 w-4"/><span className="hidden sm:inline">Novo lançamento</span></Button>}><div className="mb-5 flex gap-2 overflow-x-auto pb-1">{["Hoje","Semana","Mês","Ano","Personalizado"].map(p=><Button key={p} size="sm" variant={period===p?"primary":"secondary"} onClick={()=>setPeriod(p)}>{p}</Button>)}</div><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5"><MetricCard label="Faturamento do dia" value="R$ 320" icon={CircleDollarSign}/><MetricCard label="Faturamento da semana" value="R$ 1.280" icon={ArrowUpRight}/><MetricCard label="Faturamento do mês" value="R$ 3.850" icon={WalletCards}/><MetricCard label="Despesas" value="R$ 820" icon={ArrowDownLeft}/><MetricCard label="Resultado" value="R$ 3.030" icon={ReceiptText} detail="+8,4%"/></div><div className="mt-6 grid gap-6 xl:grid-cols-[1fr_1.2fr]"><Card className="p-5 sm:p-6"><h2 className="font-display text-xl font-semibold">Faturamento mensal</h2><p className="mt-1 text-xs text-muted-foreground">Janeiro a setembro</p><MiniBars values={[2100,2450,2700,2600,3150,3400,3300,3600,3850]} labels={["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set"]}/></Card><Card className="overflow-hidden"><div className="p-5"><h2 className="font-display text-xl font-semibold">Lançamentos recentes</h2></div><div className="divide-y divide-border">{items.map(i=><div key={i.id} className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-5 py-4"><span className={`grid h-9 w-9 place-items-center rounded-full ${i.type==="Entrada"?"bg-success/10 text-success":"bg-destructive/10 text-destructive"}`}>{i.type==="Entrada"?<ArrowUpRight className="h-4 w-4"/>:<ArrowDownLeft className="h-4 w-4"/>}</span><div className="min-w-0"><p className="truncate text-sm font-semibold">{i.desc}</p><p className="text-xs text-muted-foreground">{i.date} · {i.method}</p></div><div className="text-right"><p className={`text-sm font-bold ${i.type==="Entrada"?"text-success":"text-destructive"}`}>{i.type==="Entrada"?"+":"-"}{money(i.value)}</p><Badge>{i.type}</Badge></div></div>)}</div></Card></div><Modal open={modal} title="Novo lançamento" onClose={()=>setModal(false)}><form onSubmit={save} className="grid gap-4 sm:grid-cols-2"><SelectField name="type" label="Tipo"><option>Entrada</option><option>Despesa</option></SelectField><Field required name="desc" label="Descrição"/><Field required name="value" label="Valor" type="number"/><Field required name="date" label="Data" type="date"/><SelectField name="method" label="Forma de pagamento"><option>Pix</option><option>Dinheiro</option><option>Débito</option><option>Crédito</option></SelectField><div className="flex justify-end gap-2 sm:col-span-2"><Button type="button" variant="secondary" onClick={()=>setModal(false)}>Cancelar</Button><Button type="submit">Salvar lançamento</Button></div></form></Modal></AdminShell>}
+export const Route = createFileRoute("/admin/financeiro")({
+  head: () => ({
+    meta: [
+      { title: "Financeiro | Studio Bella" },
+      { name: "description", content: "Controle financeiro e fluxo de caixa do Studio Bella." },
+      { property: "og:title", content: "Financeiro | Studio Bella" },
+      { property: "og:description", content: "Receitas, despesas e resultados." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: Page,
+});
+const seed = [
+  {
+    id: 1,
+    type: "Entrada",
+    desc: "Manicure + Pedicure",
+    date: "29/09/2026",
+    method: "Pix",
+    value: 60,
+  },
+  {
+    id: 2,
+    type: "Entrada",
+    desc: "Esmaltação em gel",
+    date: "29/09/2026",
+    method: "Crédito",
+    value: 70,
+  },
+  {
+    id: 3,
+    type: "Despesa",
+    desc: "Reposição de esmaltes",
+    date: "28/09/2026",
+    method: "Pix",
+    value: 185,
+  },
+  { id: 4, type: "Entrada", desc: "Pedicure", date: "28/09/2026", method: "Dinheiro", value: 35 },
+];
+function Page() {
+  const [period, setPeriod] = useState("Mês");
+  const [modal, setModal] = useState(false);
+  const [items, setItems] = useState(seed);
+  const save = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const f = new FormData(e.currentTarget);
+    setItems((x) => [
+      {
+        id: Date.now(),
+        type: String(f.get("type")),
+        desc: String(f.get("desc")),
+        date: new Date().toLocaleDateString("pt-BR"),
+        method: String(f.get("method")),
+        value: Number(f.get("value")),
+      },
+      ...x,
+    ]);
+    setModal(false);
+  };
+  return (
+    <AdminShell
+      title="Financeiro"
+      subtitle="Acompanhe a saúde do seu negócio"
+      action={
+        <Button size="sm" onClick={() => setModal(true)}>
+          <Plus className="h-4 w-4" />
+          <span className="hidden sm:inline">Novo lançamento</span>
+        </Button>
+      }
+    >
+      <div className="mb-5 flex gap-2 overflow-x-auto pb-1">
+        {["Hoje", "Semana", "Mês", "Ano", "Personalizado"].map((p) => (
+          <Button
+            key={p}
+            size="sm"
+            variant={period === p ? "primary" : "secondary"}
+            onClick={() => setPeriod(p)}
+          >
+            {p}
+          </Button>
+        ))}
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        <MetricCard label="Faturamento do dia" value="R$ 320" icon={CircleDollarSign} />
+        <MetricCard label="Faturamento da semana" value="R$ 1.280" icon={ArrowUpRight} />
+        <MetricCard label="Faturamento do mês" value="R$ 3.850" icon={WalletCards} />
+        <MetricCard label="Despesas" value="R$ 820" icon={ArrowDownLeft} />
+        <MetricCard label="Resultado" value="R$ 3.030" icon={ReceiptText} detail="+8,4%" />
+      </div>
+      <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_1.2fr]">
+        <Card className="p-5 sm:p-6">
+          <h2 className="font-display text-xl font-semibold">Faturamento mensal</h2>
+          <p className="mt-1 text-xs text-muted-foreground">Janeiro a setembro</p>
+          <MiniBars
+            values={[2100, 2450, 2700, 2600, 3150, 3400, 3300, 3600, 3850]}
+            labels={["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set"]}
+          />
+        </Card>
+        <Card className="overflow-hidden">
+          <div className="p-5">
+            <h2 className="font-display text-xl font-semibold">Lançamentos recentes</h2>
+          </div>
+          <div className="divide-y divide-border">
+            {items.map((i) => (
+              <div
+                key={i.id}
+                className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-5 py-4"
+              >
+                <span
+                  className={`grid h-9 w-9 place-items-center rounded-full ${i.type === "Entrada" ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive"}`}
+                >
+                  {i.type === "Entrada" ? (
+                    <ArrowUpRight className="h-4 w-4" />
+                  ) : (
+                    <ArrowDownLeft className="h-4 w-4" />
+                  )}
+                </span>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold">{i.desc}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {i.date} · {i.method}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p
+                    className={`text-sm font-bold ${i.type === "Entrada" ? "text-success" : "text-destructive"}`}
+                  >
+                    {i.type === "Entrada" ? "+" : "-"}
+                    {money(i.value)}
+                  </p>
+                  <Badge>{i.type}</Badge>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+      <Modal open={modal} title="Novo lançamento" onClose={() => setModal(false)}>
+        <form onSubmit={save} className="grid gap-4 sm:grid-cols-2">
+          <SelectField name="type" label="Tipo">
+            <option>Entrada</option>
+            <option>Despesa</option>
+          </SelectField>
+          <Field required name="desc" label="Descrição" />
+          <Field required name="value" label="Valor" type="number" />
+          <Field required name="date" label="Data" type="date" />
+          <SelectField name="method" label="Forma de pagamento">
+            <option>Pix</option>
+            <option>Dinheiro</option>
+            <option>Débito</option>
+            <option>Crédito</option>
+          </SelectField>
+          <div className="flex justify-end gap-2 sm:col-span-2">
+            <Button type="button" variant="secondary" onClick={() => setModal(false)}>
+              Cancelar
+            </Button>
+            <Button type="submit">Salvar lançamento</Button>
+          </div>
+        </form>
+      </Modal>
+    </AdminShell>
+  );
+}

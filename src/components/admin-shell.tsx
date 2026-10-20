@@ -1,8 +1,120 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { BarChart3, CalendarDays, ChevronRight, Heart, LayoutDashboard, Menu, Settings, UsersRound, WalletCards, X, Sparkles } from "lucide-react";
+import {
+  BarChart3,
+  CalendarDays,
+  ChevronRight,
+  Heart,
+  LayoutDashboard,
+  Menu,
+  Settings,
+  UsersRound,
+  WalletCards,
+  X,
+  Sparkles,
+} from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui-kit";
-const items=[
-  ["Dashboard","/admin",LayoutDashboard],["Agenda","/admin/agenda",CalendarDays],["Clientes","/admin/clientes",UsersRound],["Procedimentos","/admin/procedimentos",Sparkles],["Financeiro","/admin/financeiro",WalletCards],["Relatórios","/admin/relatorios",BarChart3],["Configurações","/admin/configuracoes",Settings],
+const items = [
+  ["Dashboard", "/admin", LayoutDashboard],
+  ["Agenda", "/admin/agenda", CalendarDays],
+  ["Clientes", "/admin/clientes", UsersRound],
+  ["Procedimentos", "/admin/procedimentos", Sparkles],
+  ["Financeiro", "/admin/financeiro", WalletCards],
+  ["Relatórios", "/admin/relatorios", BarChart3],
+  ["Configurações", "/admin/configuracoes", Settings],
 ] as const;
-export function AdminShell({title,subtitle,action,children}:{title:string;subtitle?:string;action?:React.ReactNode;children:React.ReactNode}){const[open,setOpen]=useState(false);const path=useRouterState({select:s=>s.location.pathname});return <div className="min-h-screen bg-admin"><aside className={`fixed inset-y-0 left-0 z-50 w-72 border-r border-sidebar-border bg-sidebar p-4 transition-transform lg:translate-x-0 ${open?"translate-x-0":"-translate-x-full"}`}><div className="flex h-12 items-center justify-between px-2"><Link to="/" className="flex items-center gap-2 font-display text-xl font-semibold"><span className="grid h-9 w-9 place-items-center rounded-full bg-primary text-primary-foreground"><Heart className="h-4 w-4 fill-current"/></span>Studio Bella</Link><Button variant="ghost" size="icon" className="lg:hidden" onClick={()=>setOpen(false)} aria-label="Fechar menu"><X/></Button></div><p className="mb-3 mt-8 px-3 text-[10px] font-bold uppercase text-muted-foreground">Gestão do studio</p><nav className="grid gap-1">{items.map(([label,to,Icon])=>{const active=to==="/admin"?path===to:path.startsWith(to);return <Link key={to} to={to} onClick={()=>setOpen(false)} className={`grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold transition ${active?"bg-sidebar-primary text-sidebar-primary-foreground shadow-soft":"text-sidebar-foreground/65 hover:bg-sidebar-accent hover:text-sidebar-foreground"}`}><Icon className="h-5 w-5 shrink-0"/><span className="truncate">{label}</span>{active&&<ChevronRight className="h-4 w-4 shrink-0"/>}</Link>})}</nav><div className="absolute bottom-5 left-4 right-4 rounded-xl bg-accent p-4"><p className="text-sm font-semibold">Precisa de ajuda?</p><p className="mt-1 text-xs leading-5 text-muted-foreground">Este painel usa dados demonstrativos.</p></div></aside>{open&&<button className="fixed inset-0 z-40 bg-overlay/40 lg:hidden" onClick={()=>setOpen(false)} aria-label="Fechar menu"/>}<div className="lg:pl-72"><header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur-xl"><div className="mx-auto grid min-h-18 max-w-[1500px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6"><Button variant="ghost" size="icon" className="lg:hidden" onClick={()=>setOpen(true)} aria-label="Abrir menu"><Menu/></Button><div className="min-w-0 py-3"><h1 className="truncate font-display text-xl font-semibold sm:text-2xl">{title}</h1>{subtitle&&<p className="truncate text-xs text-muted-foreground sm:text-sm">{subtitle}</p>}</div><div>{action}</div></div></header><main className="mx-auto max-w-[1500px] p-4 sm:p-6 lg:p-8">{children}</main></div></div>}
+export function AdminShell({
+  title,
+  subtitle,
+  action,
+  children,
+}: {
+  title: string;
+  subtitle?: string;
+  action?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+  const path = useRouterState({ select: (s) => s.location.pathname });
+  return (
+    <div className="min-h-screen bg-admin">
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-72 border-r border-sidebar-border bg-sidebar p-4 transition-transform lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}
+      >
+        <div className="flex h-12 items-center justify-between px-2">
+          <Link to="/" className="flex items-center gap-2 font-display text-xl font-semibold">
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-primary text-primary-foreground">
+              <Heart className="h-4 w-4 fill-current" />
+            </span>
+            Studio Bella
+          </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden"
+            onClick={() => setOpen(false)}
+            aria-label="Fechar menu"
+          >
+            <X />
+          </Button>
+        </div>
+        <p className="mb-3 mt-8 px-3 text-[10px] font-bold uppercase text-muted-foreground">
+          Gestão do studio
+        </p>
+        <nav className="grid gap-1">
+          {items.map(([label, to, Icon]) => {
+            const active = to === "/admin" ? path === to : path.startsWith(to);
+            return (
+              <Link
+                key={to}
+                to={to}
+                onClick={() => setOpen(false)}
+                className={`grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold transition ${active ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-soft" : "text-sidebar-foreground/65 hover:bg-sidebar-accent hover:text-sidebar-foreground"}`}
+              >
+                <Icon className="h-5 w-5 shrink-0" />
+                <span className="truncate">{label}</span>
+                {active && <ChevronRight className="h-4 w-4 shrink-0" />}
+              </Link>
+            );
+          })}
+        </nav>
+        <div className="absolute bottom-5 left-4 right-4 rounded-xl bg-accent p-4">
+          <p className="text-sm font-semibold">Precisa de ajuda?</p>
+          <p className="mt-1 text-xs leading-5 text-muted-foreground">
+            Este painel usa dados demonstrativos.
+          </p>
+        </div>
+      </aside>
+      {open && (
+        <button
+          className="fixed inset-0 z-40 bg-overlay/40 lg:hidden"
+          onClick={() => setOpen(false)}
+          aria-label="Fechar menu"
+        />
+      )}
+      <div className="lg:pl-72">
+        <header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur-xl">
+          <div className="mx-auto grid min-h-18 max-w-[1500px] grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden"
+              onClick={() => setOpen(true)}
+              aria-label="Abrir menu"
+            >
+              <Menu />
+            </Button>
+            <div className="min-w-0 py-3">
+              <h1 className="truncate font-display text-xl font-semibold sm:text-2xl">{title}</h1>
+              {subtitle && (
+                <p className="truncate text-xs text-muted-foreground sm:text-sm">{subtitle}</p>
+              )}
+            </div>
+            <div>{action}</div>
+          </div>
+        </header>
+        <main className="mx-auto max-w-[1500px] p-4 sm:p-6 lg:p-8">{children}</main>
+      </div>
+    </div>
+  );
+}
