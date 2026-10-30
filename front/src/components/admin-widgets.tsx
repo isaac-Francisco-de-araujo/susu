@@ -1,7 +1,7 @@
 import { Circle } from "lucide-react";
 import { Badge, Card } from "./ui-kit";
 import type { AppointmentStatus } from "@/lib/mock-data";
-export const statusTone: Record<AppointmentStatus, "success" | "warning" | "info" | "danger"> = {
+const statusTone: Record<AppointmentStatus, "success" | "warning" | "info" | "danger"> = {
   Confirmado: "success",
   Pendente: "warning",
   Atendido: "info",
@@ -41,14 +41,15 @@ export function MetricCard({
   );
 }
 export function MiniBars({ values, labels }: { values: number[]; labels: string[] }) {
-  const max = Math.max(...values);
+  const max = Math.max(1, ...values);
   return (
     <div className="flex h-44 items-end gap-2 sm:gap-3">
       {values.map((v, i) => (
         <div key={labels[i]} className="flex min-w-0 flex-1 flex-col items-center gap-2">
           <div
             className="w-full rounded-t-md bg-primary/20 transition hover:bg-primary"
-            style={{ height: `${Math.max(12, (v / max) * 130)}px` }}
+            title={String(v)}
+            style={{ height: `${Math.max(2, (v / max) * 130)}px` }}
           />
           <span className="truncate text-[10px] text-muted-foreground">{labels[i]}</span>
         </div>

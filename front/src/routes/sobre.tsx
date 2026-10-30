@@ -2,15 +2,16 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Heart, ShieldCheck, Sparkles } from "lucide-react";
 import professionalImage from "@/assets/professional.jpg";
 import { PublicLayout } from "@/components/public-shell";
+import { settingsStore } from "@/lib/studio-store";
 export const Route = createFileRoute("/sobre")({
   head: () => ({
     meta: [
-      { title: "Sobre | Studio Bella" },
+      { title: "Sobre | Manicure e Pedicure" },
       {
         name: "description",
-        content: "Conheça a profissional e o cuidado por trás do Studio Bella.",
+        content: "Conheça a profissional e os serviços do estabelecimento.",
       },
-      { property: "og:title", content: "Sobre | Studio Bella" },
+      { property: "og:title", content: "Sobre | Manicure e Pedicure" },
       { property: "og:description", content: "Beleza e cuidado com atenção aos detalhes." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/sobre")({
   component: Page,
 });
 function Page() {
+  const { data: settings } = settingsStore.use();
   return (
     <PublicLayout>
       <section className="py-16 sm:py-24">
@@ -27,17 +29,17 @@ function Page() {
             src={professionalImage}
             width={1024}
             height={1280}
-            alt="Bella, manicure e pedicure"
+            alt="Imagem ilustrativa de uma profissional de manicure"
             className="aspect-[4/5] w-full rounded-xl object-cover shadow-card"
           />
           <div>
             <p className="text-xs font-bold uppercase text-primary">Minha história</p>
             <h1 className="mt-3 font-display text-4xl font-semibold sm:text-5xl">
-              Olá, eu sou a Bella
+              Olá, eu sou {settings.professionalName}
             </h1>
             <p className="mt-6 leading-8 text-muted-foreground">
               Sou manicure e pedicure apaixonada por transformar o cuidado com as unhas em um
-              momento de bem-estar. Há mais de oito anos, recebo cada cliente com atenção, escuta e
+              momento de bem-estar. Recebo cada cliente com atenção, escuta e
               muito carinho.
             </p>
             <p className="mt-4 leading-8 text-muted-foreground">

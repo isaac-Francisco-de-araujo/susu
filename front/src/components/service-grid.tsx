@@ -1,11 +1,32 @@
 import { Clock3, MessageCircle } from "lucide-react";
-import { money } from "@/lib/mock-data";
-import { useActiveServices } from "@/lib/services-store";
+import { money, type Service } from "@/lib/mock-data";
+import { refreshServices, useServicesState } from "@/lib/services-store";
+import nailGallery from "@/assets/nail-gallery.jpg";
+import { mediaUrl } from "@/lib/api";
+import { settingsStore } from "@/lib/studio-store";
 import { bookingMessage, whatsappLink } from "@/lib/config";
 import { Card } from "./ui-kit";
 
-export function ServiceGrid({ limit }: { limit?: number }) {
-  const services = useActiveServices().slice(0, limit);
+export function ServiceGrid({
+  limit,
+  initialItems,
+}: {
+  limit?: number;
+  initialItems?: Service[] | undefined;
+}) {
+  settingsStore.use();
+  const { items, loading, error } = useServicesState(initialItems);
+  const services = items.filter((service) => service.active).slice(0, limit);
+  if (loading && !items.length) return <p role="status">Carregando procedimentos...</p>;
+  if (error)
+    return (
+      <div role="alert" className="text-sm text-muted-foreground">
+        <p>Não foi possível atualizar os procedimentos.</p>
+        <button className="mt-2 font-bold text-primary" onClick={() => void refreshServices()}>
+          Tentar novamente
+        </button>
+      </div>
+    );
   if (!services.length)
     return (
       <p className="text-sm text-muted-foreground">Nenhum procedimento disponível no momento.</p>
@@ -19,7 +40,7 @@ export function ServiceGrid({ limit }: { limit?: number }) {
         >
           <div className="aspect-[4/3] overflow-hidden bg-muted">
             <img
-              src={service.image}
+              src={mediaUrl(service.image) || nailGallery}
               alt={service.name}
               loading="lazy"
               className="h-full w-full object-cover transition duration-500 group-hover:scale-105"

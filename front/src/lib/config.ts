@@ -1,12 +1,10 @@
-// Configuração central do studio — altere o número do WhatsApp apenas aqui.
-// integrar com o back aq
-export const STUDIO_NAME = "Studio Bella";
-export const WHATSAPP_NUMBER = "5511999999999";
+import { settingsStore } from "./studio-store";
 
-export const whatsappLink = (message: string, phone: string = WHATSAPP_NUMBER) =>
-  `https://wa.me/${phone.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
-
-export const bookingMessage = (serviceName?: string) =>
-  serviceName
-    ? `Olá! Gostaria de agendar ${serviceName}.`
-    : `Olá! Gostaria de agendar um horário no ${STUDIO_NAME}. 💕`;
+// All public booking links continue to be generated centrally here.
+export const whatsappLink = (message: string, phone?: string) => {
+  const digits = (phone ?? settingsStore.get().whatsapp).replace(/\D/g, "");
+  return /^\d{10,15}$/.test(digits) ? `https://wa.me/${digits}?text=${encodeURIComponent(message)}` : undefined;
+};
+export const bookingMessage = (serviceName?: string) => serviceName
+  ? `Olá, gostaria de agendar ${serviceName}.`
+  : `Olá! Gostaria de agendar um horário no ${settingsStore.get().studioName}. 💕`;

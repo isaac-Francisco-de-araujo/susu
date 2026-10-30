@@ -10,23 +10,26 @@ import {
   Star,
 } from "lucide-react";
 import heroImage from "@/assets/studio-hero.jpg";
-import galleryImage from "@/assets/nail-gallery.jpg";
 import professionalImage from "@/assets/professional.jpg";
 import { PublicLayout } from "@/components/public-shell";
 import { ServiceGrid } from "@/components/service-grid";
 import { SectionTitle } from "@/components/ui-kit";
+import { GalleryGrid } from "@/components/gallery-grid";
+import { settingsStore } from "@/lib/studio-store";
 import { whatsappLink, bookingMessage } from "@/lib/config";
+import { loadPublicCatalog } from "@/lib/public-data";
 
 export const Route = createFileRoute("/")({
+  loader: () => loadPublicCatalog(),
   head: () => ({
     meta: [
-      { title: "Studio Bella | Manicure e Pedicure" },
+      { title: "Manicure e Pedicure | Serviços e agendamento pelo WhatsApp" },
       {
         name: "description",
         content:
-          "Manicure, pedicure e esmaltação em gel com cuidado e elegância. Agende seu momento no Studio Bella.",
+          "Conheça os serviços de manicure, pedicure e esmaltação em gel. Consulte preços e converse pelo WhatsApp.",
       },
-      { property: "og:title", content: "Studio Bella | Manicure e Pedicure" },
+      { property: "og:title", content: "Manicure e Pedicure | Serviços e contato" },
       { property: "og:description", content: "Seu momento de beleza, cuidado e autoestima." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -36,6 +39,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const catalog = Route.useLoaderData();
+  const { data: settings } = settingsStore.use();
   return (
     <PublicLayout>
       <section className="relative min-h-[calc(100svh-4.5rem)] overflow-hidden bg-rose-soft">
@@ -53,7 +58,7 @@ function Home() {
               <Sparkles className="h-3.5 w-3.5" /> Beleza que começa nos detalhes
             </div>
             <h1 className="font-display text-5xl font-semibold leading-[1.02] sm:text-6xl lg:text-7xl">
-              Studio Bella
+              {settings.studioName}
             </h1>
             <p className="mt-5 max-w-lg text-lg leading-8 text-foreground/75">
               Unhas impecáveis, cuidado delicado e um momento só seu.
@@ -78,9 +83,23 @@ function Home() {
                 Ver serviços <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
+            <p className="mt-4 max-w-md text-sm leading-6 text-foreground/75">
+              Escolha seu serviço e combine o melhor horário comigo pelo WhatsApp.
+            </p>
+            {settings.address && (
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.address)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 inline-flex items-start gap-2 text-sm font-medium text-foreground/75 underline-offset-4 hover:underline"
+              >
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                {settings.address}
+              </a>
+            )}
             <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium text-foreground/70">
               <span className="flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-primary" /> Materiais esterilizados
+                 <ShieldCheck className="h-4 w-4 text-primary" /> Converse antes de agendar
               </span>
               <span className="flex items-center gap-2">
                 <Star className="h-4 w-4 fill-primary text-primary" /> Atendimento personalizado
@@ -102,7 +121,7 @@ function Home() {
               Ver todos →
             </Link>
           </div>
-          <ServiceGrid />
+          <ServiceGrid initialItems={catalog.services} />
         </div>
       </section>
 
@@ -118,27 +137,7 @@ function Home() {
               Ver galeria →
             </Link>
           </div>
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {["0% 0%", "100% 0%", "0% 100%", "100% 100%"].map((pos, i) => (
-              <Link
-                key={pos}
-                to="/trabalhos"
-                className={`group relative overflow-hidden rounded-xl ${i === 0 ? "col-span-2 row-span-2" : ""}`}
-              >
-                <div className={i === 0 ? "aspect-square" : "aspect-square"}>
-                  <img
-                    src={galleryImage}
-                    width={1536}
-                    height={1536}
-                    loading="lazy"
-                    alt={`Trabalho de nail art ${i + 1}`}
-                    className="h-full w-full scale-[2.04] object-cover transition duration-500 group-hover:scale-[2.12]"
-                    style={{ transformOrigin: pos }}
-                  />
-                </div>
-              </Link>
-            ))}
-          </div>
+          <GalleryGrid limit={4} initialItems={catalog.gallery} />
         </div>
       </section>
 
@@ -150,20 +149,16 @@ function Home() {
               width={1024}
               height={1280}
               loading="lazy"
-              alt="Profissional do Studio Bella"
+              alt="Imagem ilustrativa de uma profissional de manicure"
               className="aspect-[4/5] w-full rounded-xl object-cover shadow-card"
             />
-            <div className="absolute -bottom-5 -right-2 rounded-xl border border-border bg-card p-4 shadow-card sm:-right-6">
-              <p className="font-display text-2xl font-semibold text-primary">+8 anos</p>
-              <p className="text-xs text-muted-foreground">cuidando de mulheres</p>
-            </div>
           </div>
           <div>
             <SectionTitle eyebrow="Sobre mim" title="Cuidado que você sente em cada detalhe" />
             <p className="mt-6 text-base leading-8 text-muted-foreground">
-              Olá! Eu sou Bella, manicure e pedicure, e meu objetivo é cuidar das suas unhas com
-              carinho, qualidade e atenção aos detalhes. Cada atendimento é pensado para ser uma
-              pausa leve na sua rotina.
+              Olá! Eu sou {settings.professionalName}, manicure e pedicure, e meu objetivo é cuidar
+              das suas unhas com carinho, qualidade e atenção aos detalhes. Cada atendimento é
+              pensado para ser uma pausa leve na sua rotina.
             </p>
             <Link
               to="/sobre"
@@ -181,7 +176,7 @@ function Home() {
           <h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">
             Seu próximo horário começa aqui
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-primary-foreground/80">
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-primary-foreground">
             Reserve seu momento de autocuidado pelo WhatsApp. Você merece essa pausa.
           </p>
           <a
@@ -207,13 +202,13 @@ function Home() {
               <div className="flex gap-3 rounded-xl border border-border p-4">
                 <MapPin className="h-5 w-5 shrink-0 text-primary" />
                 <div>
-                  <p className="font-semibold">Studio Bella</p>
-                  <p className="text-sm text-muted-foreground">Rua das Flores, 120 — Centro</p>
+                  <p className="font-semibold">{settings.studioName}</p>
+                  <p className="text-sm text-muted-foreground">{settings.address}</p>
                 </div>
               </div>
               <a
                 href={whatsappLink(
-                  "Olá! Gostaria de saber mais sobre os serviços do Studio Bella.",
+                  `Olá! Gostaria de saber mais sobre os serviços do ${settings.studioName}.`,
                 )}
                 target="_blank"
                 rel="noreferrer"

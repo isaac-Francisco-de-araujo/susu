@@ -1,138 +1,201 @@
-import { whatsappLink } from "@/lib/config";
-import { createFileRoute } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Edit3, MessageCircle, Plus, Trash2 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
 import { AdminShell } from "@/components/admin-shell";
 import { StatusBadge } from "@/components/admin-widgets";
 import { Button, Field, Modal, SelectField, TextareaField } from "@/components/ui-kit";
-// integrar com o back aq
+import { RemoteStatus } from "@/components/remote-status";
 import {
-  appointments as seed,
-  type Appointment,
+  type SavedAppointment,
   type AppointmentStatus,
   appointmentStatuses,
   money,
 } from "@/lib/mock-data";
-import { useServices } from "@/lib/services-store";
+import {
+  appointmentsStore,
+  clientsStore,
+  saveAppointment,
+  settingsStore,
+} from "@/lib/studio-store";
+import { useServicesState } from "@/lib/services-store";
+import { whatsappLink } from "@/lib/config";
+
 export const Route = createFileRoute("/admin/agenda")({
-  head: () => ({
-    meta: [
-      { title: "Agenda | Studio Bella" },
-      { name: "description", content: "Calendário e atendimentos do Studio Bella." },
-      { property: "og:title", content: "Agenda | Studio Bella" },
-      { property: "og:description", content: "Gerencie horários e atendimentos." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
+  validateSearch: (search: Record<string, unknown>): { novo?: boolean | undefined } => ({
+    novo: search["novo"] === true || search["novo"] === "true" ? true : undefined,
   }),
   component: Page,
 });
+const localDate = (date: Date) =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 function Page() {
-  const [month, setMonth] = useState(8);
-  const [selectedDay, setSelectedDay] = useState(29);
-  const [items, setItems] = useState(seed);
-  const [modal, setModal] = useState(false);
-  const [editing, setEditing] = useState<Appointment | null>(null);
-  const monthNames = [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro",
-  ];
-  const days = useMemo(
-    () => Array.from({ length: new Date(2026, month + 1, 0).getDate() }, (_, i) => i + 1),
-    [month],
+  const search = Route.useSearch();
+  const navigate = Route.useNavigate();
+  const { data: items, loading, saving, error } = appointmentsStore.use();
+  const clients = clientsStore.use();
+  const services = useServicesState();
+  const { data: settings } = settingsStore.use();
+  const [month, setMonth] = useState(
+    () => new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   );
-  const dayItems = items.filter((a) => a.day === selectedDay);
-  const updateStatus = (id: number, status: AppointmentStatus) =>
-    setItems((x) => x.map((a) => (a.id === id ? { ...a, status } : a)));
-  const openEdit = (a?: Appointment) => {
-    setEditing(a ?? null);
+  const [date, setDate] = useState(() => localDate(new Date()));
+  const [modal, setModal] = useState(false);
+  const [editing, setEditing] = useState<SavedAppointment | null>(null);
+  const [serviceId, setServiceId] = useState("");
+  const [price, setPrice] = useState("");
+  useEffect(() => {
+    if (!search.novo || loading || services.loading || clients.loading) return;
+    const selected = services.items.find((service) => service.active);
+    if (selected && clients.data.length) {
+      setEditing(null);
+      setServiceId(selected.id);
+      setPrice(String(selected.price));
+      setModal(true);
+    }
+    void navigate({ search: {}, replace: true });
+  }, [
+    search.novo,
+    loading,
+    services.loading,
+    services.items,
+    clients.loading,
+    clients.data.length,
+    navigate,
+  ]);
+  const active = services.items.filter((item) => item.active || item.id === editing?.serviceId);
+  const open = (item?: SavedAppointment) => {
+    setEditing(item ?? null);
+    const selected =
+      services.items.find((service) => service.id === item?.serviceId) ??
+      services.items.find((service) => service.active);
+    setServiceId(item?.serviceId ?? selected?.id ?? "");
+    setPrice(String(item?.price ?? selected?.price ?? 0));
     setModal(true);
   };
-  const save = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const f = new FormData(e.currentTarget);
-    const data = {
-      day: Number(f.get("day")),
-      time: String(f.get("time")),
-      client: String(f.get("client")),
-      service: String(f.get("service")),
-      value: Number(f.get("value")),
-      status: String(f.get("status")) as AppointmentStatus,
-      phone: "5511999999999",
-    };
-    setItems((x) =>
-      editing
-        ? x.map((a) => (a.id === editing.id ? { ...a, ...data } : a))
-        : [...x, { id: Date.now(), ...data }],
-    );
-    setSelectedDay(data.day);
-    setModal(false);
+  const changeStatus = async (item: SavedAppointment, status: AppointmentStatus) => {
+    try {
+      await saveAppointment({ ...item, status }, item.id);
+    } catch {
+      /* Store displays errors. */
+    }
   };
+  const first = (month.getDay() - settings.firstWeekday + 7) % 7;
+  const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
+  const weekdays = Array.from(
+    { length: 7 },
+    (_, index) =>
+      ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"][(index + settings.firstWeekday) % 7],
+  );
+  const dayItems = items.filter((item) => item.startsAt.slice(0, 10) === date);
+  const slots: string[] = [];
+  const minutes = (time: string) => Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5));
+  for (
+    let time = minutes(settings.opensAt);
+    time < minutes(settings.closesAt);
+    time += Math.max(5, settings.slotMinutes)
+  )
+    slots.push(
+      `${String(Math.floor(time / 60)).padStart(2, "0")}:${String(time % 60).padStart(2, "0")}`,
+    );
+  const editTime = editing?.startsAt.slice(11, 16);
+  if (editTime && !slots.includes(editTime)) slots.push(editTime);
   return (
     <AdminShell
       title="Agenda"
-      subtitle="Setembro de 2026"
+      subtitle={month.toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}
       action={
-        <Button size="sm" onClick={() => openEdit()}>
+        <Button
+          size="sm"
+          disabled={
+            loading ||
+            services.loading ||
+            clients.loading ||
+            saving ||
+            !clients.data.length ||
+            !services.items.some((item) => item.active)
+          }
+          onClick={() => open()}
+        >
           <Plus className="h-4 w-4" />
-          <span className="hidden sm:inline">Novo agendamento</span>
+          Novo agendamento
         </Button>
       }
     >
-      <div className="grid gap-6 xl:grid-cols-[1.25fr_.75fr]">
-        <section className="rounded-xl border border-border bg-card p-4 shadow-soft sm:p-6">
-          <div className="mb-5 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2">
+      <RemoteStatus loading={loading} error={error} retry={appointmentsStore.refresh} />
+      <RemoteStatus loading={clients.loading} error={clients.error} retry={clientsStore.refresh} />
+      <RemoteStatus
+        loading={services.loading}
+        error={services.error}
+        retry={async () => {
+          const { refreshServices } = await import("@/lib/services-store");
+          await refreshServices();
+        }}
+      />
+      {!clients.loading && !clients.data.length && (
+        <p className="mb-4 text-sm">
+          Cadastre uma cliente em{" "}
+          <Link to="/admin/clientes" className="font-bold text-primary">
+            Clientes
+          </Link>{" "}
+          para criar um agendamento.
+        </p>
+      )}
+      {!services.loading && !services.items.some((item) => item.active) && (
+        <p className="mb-4 text-sm">
+          Cadastre um procedimento ativo em{" "}
+          <Link to="/admin/procedimentos" className="font-bold text-primary">
+            Procedimentos
+          </Link>
+          .
+        </p>
+      )}
+      <div className="grid gap-6 xl:grid-cols-2">
+        <section className="rounded-xl border border-border bg-card p-4 sm:p-6">
+          <div className="mb-5 flex items-center justify-between">
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setMonth((month + 11) % 12)}
               aria-label="Mês anterior"
+              onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))}
             >
               <ChevronLeft />
             </Button>
-            <h2 className="text-center font-display text-xl font-semibold">
-              {monthNames[month] ?? "Mês"} 2026
+            <h2 className="font-display text-xl font-semibold">
+              {month.toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}
             </h2>
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setMonth((month + 1) % 12)}
               aria-label="Próximo mês"
+              onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))}
             >
               <ChevronRight />
             </Button>
           </div>
-          <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-bold uppercase text-muted-foreground sm:gap-2">
-            {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"].map((d) => (
-              <span key={d} className="py-2">
-                {d}
+          <div className="grid grid-cols-7 gap-1 text-center text-xs">
+            {weekdays.map((day) => (
+              <span key={day} className="py-2 font-bold">
+                {day}
               </span>
             ))}
-            {Array.from({ length: new Date(2026, month, 1).getDay() }, (_, i) => (
-              <span key={`blank-${i}`} />
+            {Array.from({ length: first }, (_, index) => (
+              <span key={`blank-${index}`} />
             ))}
-            {days.map((day) => {
-              const count = items.filter((a) => a.day === day && a.status !== "Cancelado").length;
+            {Array.from({ length: days }, (_, index) => {
+              const value = localDate(new Date(month.getFullYear(), month.getMonth(), index + 1));
+              const count = items.filter(
+                (item) => item.startsAt.startsWith(value) && item.status !== "Cancelado",
+              ).length;
               return (
                 <button
-                  key={day}
-                  onClick={() => setSelectedDay(day)}
-                  className={`relative min-h-16 rounded-lg border p-1 text-left transition sm:min-h-20 sm:p-2 ${selectedDay === day ? "border-primary bg-accent ring-2 ring-primary/10" : count ? "border-primary/20 bg-primary/5" : "border-transparent hover:bg-muted"}`}
+                  key={value}
+                  onClick={() => setDate(value)}
+                  className={`min-h-16 rounded-lg border p-2 ${date === value ? "border-primary bg-accent" : "border-transparent hover:bg-muted"}`}
                 >
-                  <span className="text-xs font-semibold sm:text-sm">{day}</span>
+                  <span>{index + 1}</span>
                   {count > 0 && (
-                    <span className="mt-2 block rounded bg-primary px-1 py-1 text-center text-[9px] font-bold text-primary-foreground sm:text-[10px]">
-                      {count} cliente{count > 1 ? "s" : ""}
+                    <span className="mt-1 block text-[10px] font-bold text-primary">
+                      {count} cliente(s)
                     </span>
                   )}
                 </button>
@@ -140,186 +203,213 @@ function Page() {
             })}
           </div>
         </section>
-        <section className="rounded-xl border border-border bg-card p-4 shadow-soft sm:p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-bold uppercase text-primary">Dia selecionado</p>
-              <h2 className="mt-1 font-display text-2xl font-semibold">
-                {selectedDay} de {(monthNames[month] ?? "mês").toLowerCase()}
-              </h2>
-            </div>
-            <span className="text-sm text-muted-foreground">{dayItems.length} clientes</span>
-          </div>
-          <div className="mt-5 grid gap-3">
-            {dayItems.length === 0 && (
-              <div className="rounded-lg border border-dashed border-border py-12 text-center text-sm text-muted-foreground">
-                Nenhum atendimento neste dia.
-              </div>
-            )}
-            {dayItems.map((a) => (
-              <article key={a.id} className="rounded-xl bg-muted/60 p-4">
-                <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-3">
-                  <strong className="rounded-md bg-card px-2 py-1.5 text-sm">{a.time}</strong>
-                  <div className="min-w-0">
-                    <p className="truncate font-semibold">{a.client}</p>
-                    <p className="truncate text-xs text-muted-foreground">
-                      {a.service} · {money(a.value)}
-                    </p>
-                  </div>
-                  <StatusBadge status={a.status} />
-                </div>
-                <div className="mt-3 flex flex-wrap gap-1 border-t border-border pt-3">
-                  <Button size="sm" variant="ghost" onClick={() => openEdit(a)}>
-                    <Edit3 className="h-4 w-4" />
-                    Editar
-                  </Button>
-                  {a.status === "Pendente" && (
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => updateStatus(a.id, "Confirmado")}
-                    >
-                      Confirmar
-                    </Button>
-                  )}
-                  {a.status === "Confirmado" && (
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => updateStatus(a.id, "Atendido")}
-                    >
-                      Atendido
-                    </Button>
-                  )}
-                  {a.status === "Confirmado" && (
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => updateStatus(a.id, "Não atendido")}
-                    >
-                      Não atendido
-                    </Button>
-                  )}
-                  <a
-                    href={whatsappLink(
-                      `Olá, ${a.client.split(" ")[0]}! Seu horário para ${a.service} está confirmado para amanhã às ${a.time}. 💕`,
-                      a.phone,
-                    )}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Button size="sm" variant="ghost">
-                      <MessageCircle className="h-4 w-4" />
-                    </Button>
-                  </a>
-                  <Button
-                    size="sm"
-                    variant="danger"
-                    onClick={() => updateStatus(a.id, "Cancelado")}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              </article>
-            ))}
-          </div>
-          {dayItems.length > 0 && (
-            <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
-              <span className="text-sm text-muted-foreground">Faturamento previsto</span>
-              <strong>
-                {money(
-                  dayItems.filter((a) => a.status !== "Cancelado").reduce((s, a) => s + a.value, 0),
-                )}
-              </strong>
-            </div>
+        <section className="rounded-xl border border-border bg-card p-4 sm:p-6">
+          <h2 className="font-display text-xl font-semibold">
+            {new Date(`${date}T12:00:00`).toLocaleDateString("pt-BR", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </h2>
+          {!dayItems.length && (
+            <p className="mt-5 text-sm text-muted-foreground">Nenhum atendimento neste dia.</p>
           )}
-          <Button className="mt-4 w-full" onClick={() => openEdit()}>
-            <Plus className="h-4 w-4" />
-            Novo agendamento
-          </Button>
+          <div className="mt-5 grid gap-3">
+            {dayItems.map((item) => {
+              const client = clients.data.find((person) => person.id === item.clientId);
+              const until = new Date(item.startsAt).getTime() - Date.now();
+              const reminder =
+                settings.remindersEnabled &&
+                until > 0 &&
+                until <= 24 * 60 * 60 * 1000 &&
+                (item.status === "Pendente" || item.status === "Confirmado");
+              return (
+                <article key={item.id} className="rounded-xl bg-muted p-4">
+                  <div className="flex flex-wrap justify-between gap-2">
+                    <div>
+                      <p className="font-semibold">
+                        {item.startsAt.slice(11, 16)} · {client?.name ?? "Cliente"}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {item.serviceName} · {money(item.price)}
+                      </p>
+                    </div>
+                    <StatusBadge status={item.status} />
+                  </div>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      disabled={saving}
+                      onClick={() => open(item)}
+                    >
+                      Editar
+                    </Button>
+                    <select
+                      aria-label={`Status de ${client?.name ?? "cliente"}`}
+                      disabled={saving}
+                      value={item.status}
+                      onChange={(event) =>
+                        void changeStatus(item, event.target.value as AppointmentStatus)
+                      }
+                      className="h-9 rounded-lg border border-input bg-background px-2 text-xs"
+                    >
+                      {appointmentStatuses.map((status) => (
+                        <option key={status}>{status}</option>
+                      ))}
+                    </select>
+                    {reminder && client && (
+                      <a
+                        className="text-sm font-bold text-primary"
+                        href={whatsappLink(
+                          `Olá, ${client.name}! Lembrete: seu procedimento ${item.serviceName} está agendado para ${new Date(item.startsAt).toLocaleString("pt-BR")}. 💕`,
+                          client.phone,
+                        )}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Enviar lembrete por WhatsApp
+                      </a>
+                    )}
+                  </div>
+                  {item.notes && <p className="mt-2 whitespace-pre-wrap text-sm">{item.notes}</p>}
+                </article>
+              );
+            })}
+          </div>
         </section>
       </div>
-      <AppointmentModal
+      <Modal
         open={modal}
-        editing={editing}
-        day={selectedDay}
-        onClose={() => setModal(false)}
-        onSave={save}
-      />
+        title={editing ? "Editar agendamento" : "Novo agendamento"}
+        onClose={() => {
+          if (!saving) setModal(false);
+        }}
+      >
+        <form
+          key={editing?.id ?? "new"}
+          className="grid gap-4 sm:grid-cols-2"
+          onSubmit={async (event) => {
+            event.preventDefault();
+            const form = new FormData(event.currentTarget);
+            const startsAt = `${String(form.get("date"))}T${String(form.get("time"))}:00`;
+            try {
+              await saveAppointment(
+                {
+                  clientId: String(form.get("clientId")),
+                  serviceId,
+                  startsAt,
+                  price: Number(price),
+                  status: String(form.get("status")) as AppointmentStatus,
+                  payment: String(form.get("payment")),
+                  notes: String(form.get("notes")),
+                },
+                editing?.id,
+              );
+              setDate(startsAt.slice(0, 10));
+              setMonth(new Date(Number(startsAt.slice(0, 4)), Number(startsAt.slice(5, 7)) - 1, 1));
+              setModal(false);
+            } catch {
+              /* Preserve the form on failure. */
+            }
+          }}
+        >
+          {error && (
+            <p role="alert" className="text-sm text-destructive sm:col-span-2">
+              {error}
+            </p>
+          )}
+          <SelectField
+            required
+            name="clientId"
+            label="Cliente"
+            defaultValue={editing?.clientId ?? clients.data[0]?.id}
+          >
+            {clients.data.map((client) => (
+              <option key={client.id} value={client.id}>
+                {client.name} · {client.phone}
+              </option>
+            ))}
+          </SelectField>
+          <Field
+            required
+            type="date"
+            name="date"
+            label="Data"
+            defaultValue={editing?.startsAt.slice(0, 10) ?? date}
+          />
+          <SelectField required name="time" label="Horário" defaultValue={editTime ?? slots[0]}>
+            {slots.map((slot) => (
+              <option key={slot}>{slot}</option>
+            ))}
+          </SelectField>
+          <SelectField
+            required
+            label="Procedimento"
+            value={serviceId}
+            onChange={(event) => {
+              setServiceId(event.target.value);
+              setPrice(
+                String(
+                  services.items.find((service) => service.id === event.target.value)?.price ?? 0,
+                ),
+              );
+            }}
+          >
+            {editing && !services.items.some((service) => service.id === editing.serviceId) && (
+              <option value={editing.serviceId}>
+                {editing.serviceName} (removido do catálogo)
+              </option>
+            )}
+            {active.map((service) => (
+              <option key={service.id} value={service.id}>
+                {service.name}
+              </option>
+            ))}
+          </SelectField>
+          <Field
+            required
+            label="Valor"
+            type="number"
+            min="0"
+            max="9999999999.99"
+            step="0.01"
+            value={price}
+            onChange={(event) => setPrice(event.target.value)}
+          />
+          <SelectField name="status" label="Status" defaultValue={editing?.status ?? "Pendente"}>
+            {appointmentStatuses.map((status) => (
+              <option key={status}>{status}</option>
+            ))}
+          </SelectField>
+          <SelectField name="payment" label="Pagamento" defaultValue={editing?.payment ?? "Pix"}>
+            {["Pix", "Dinheiro", "Débito", "Crédito"].map((payment) => (
+              <option key={payment}>{payment}</option>
+            ))}
+          </SelectField>
+          <div className="sm:col-span-2">
+            <TextareaField
+              name="notes"
+              label="Observações"
+              maxLength={5000}
+              defaultValue={editing?.notes}
+            />
+          </div>
+          <div className="flex justify-end gap-2 sm:col-span-2">
+            <Button
+              disabled={saving}
+              type="button"
+              variant="secondary"
+              onClick={() => setModal(false)}
+            >
+              Cancelar
+            </Button>
+            <Button disabled={saving} type="submit">
+              {saving ? "Salvando..." : "Salvar agendamento"}
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </AdminShell>
-  );
-}
-function AppointmentModal({
-  open,
-  editing,
-  day,
-  onClose,
-  onSave,
-}: {
-  open: boolean;
-  editing: Appointment | null;
-  day: number;
-  onClose: () => void;
-  onSave: (e: React.FormEvent<HTMLFormElement>) => void;
-}) {
-  const activeServices = useServices().filter((s) => s.active);
-  return (
-    <Modal
-      open={open}
-      title={editing ? "Editar agendamento" : "Novo agendamento"}
-      onClose={onClose}
-    >
-      <form onSubmit={onSave} className="grid gap-4 sm:grid-cols-2">
-        <Field required name="client" label="Cliente" defaultValue={editing?.client} />
-        <Field
-          required
-          name="day"
-          label="Dia"
-          type="number"
-          min="1"
-          max="31"
-          defaultValue={editing?.day ?? day}
-        />
-        <Field
-          required
-          name="time"
-          label="Horário"
-          type="time"
-          defaultValue={editing?.time ?? "09:00"}
-        />
-        <SelectField name="service" label="Procedimento" defaultValue={editing?.service}>
-          {activeServices.map((s) => (
-            <option key={s.id}>{s.name}</option>
-          ))}
-        </SelectField>
-        <Field
-          required
-          name="value"
-          label="Valor"
-          type="number"
-          defaultValue={editing?.value ?? 30}
-        />
-        <SelectField name="status" label="Status" defaultValue={editing?.status ?? "Pendente"}>
-          {appointmentStatuses.map((s) => (
-            <option key={s}>{s}</option>
-          ))}
-        </SelectField>
-        <SelectField name="payment" label="Pagamento">
-          <option>Pix</option>
-          <option>Dinheiro</option>
-          <option>Débito</option>
-          <option>Crédito</option>
-        </SelectField>
-        <div className="sm:col-span-2">
-          <TextareaField label="Observações" name="notes" />
-        </div>
-        <div className="flex justify-end gap-2 sm:col-span-2">
-          <Button type="button" variant="secondary" onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button type="submit">Salvar agendamento</Button>
-        </div>
-      </form>
-    </Modal>
   );
 }

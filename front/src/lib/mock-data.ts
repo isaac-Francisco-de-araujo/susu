@@ -13,6 +13,53 @@ export type Service = {
   image: string;
   active: boolean;
 };
+export type ServiceInput = Omit<Service, "id">;
+export type StudioSettings = {
+  studioName: string;
+  professionalName: string;
+  whatsapp: string;
+  instagram: string;
+  address: string;
+  firstWeekday: number;
+  slotMinutes: number;
+  opensAt: string;
+  closesAt: string;
+  remindersEnabled: boolean;
+};
+export type ClientInput = {
+  name: string;
+  phone: string;
+  birthday: string | null;
+  firstVisit: string | null;
+  notes: string;
+};
+export type SavedClient = ClientInput & {
+  id: string;
+  lastVisit: string | null;
+  lastProcedure: string | null;
+  visits: number;
+  spent: number;
+};
+export type AppointmentInput = {
+  clientId: string;
+  serviceId: string;
+  startsAt: string;
+  price: number;
+  status: AppointmentStatus;
+  payment: string;
+  notes: string;
+};
+export type SavedAppointment = AppointmentInput & { id: string; serviceName: string };
+export type GalleryInput = { title: string; image: string; active: boolean; displayOrder: number };
+export type GalleryPhoto = GalleryInput & { id: string };
+export type FinancialInput = {
+  type: "Entrada" | "Despesa";
+  description: string;
+  date: string;
+  payment: string;
+  amount: number;
+};
+export type FinancialEntry = FinancialInput & { id: string; source: "manual" | "appointment" };
 export type AppointmentStatus =
   "Pendente" | "Confirmado" | "Atendido" | "Não atendido" | "Cancelado";
 export const appointmentStatuses: AppointmentStatus[] = [

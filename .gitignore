@@ -20,6 +20,11 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Local credentials (the example stays versioned)
+.env
+.env.*
+!.env.example
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -30,3 +35,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Java backend and local database
+back/target/
+back/data/

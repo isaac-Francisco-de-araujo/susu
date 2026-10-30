@@ -44,12 +44,25 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+function protectResponse(response: Response, request: Request) {
+  const headers = new Headers(response.headers);
+  headers.set("X-Content-Type-Options", "nosniff");
+  headers.set("Referrer-Policy", "no-referrer");
+  headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  const path = new URL(request.url).pathname;
+  if (path.startsWith("/admin") || path === "/login") {
+    headers.set("Cache-Control", "no-store");
+    headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      return protectResponse(await normalizeCatastrophicSsrResponse(response), request);
     } catch (error) {
       console.error(error);
       return new Response(renderErrorPage(), {

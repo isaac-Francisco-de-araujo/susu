@@ -1,11 +1,13 @@
 import type {
   ButtonHTMLAttributes,
+  HTMLAttributes,
   InputHTMLAttributes,
   ReactNode,
   SelectHTMLAttributes,
   TextareaHTMLAttributes,
 } from "react";
 import { X } from "lucide-react";
+import { useEffect, useId, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 export function Button({
@@ -38,9 +40,9 @@ export function Button({
   );
 }
 
-export function Card({ children, className }: { children: ReactNode; className?: string }) {
+export function Card({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("rounded-xl border border-border bg-card shadow-soft", className)}>
+    <div className={cn("rounded-xl border border-border bg-card shadow-soft", className)} {...props}>
       {children}
     </div>
   );
@@ -127,38 +129,67 @@ export function Modal({
   children: ReactNode;
   onClose: () => void;
 }) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const titleId = useId();
+  const close = useRef(onClose);
+  close.current = onClose;
+  useEffect(() => {
+    const element = dialog.current;
+    if (!open || !element) return;
+    const previous = document.activeElement as HTMLElement | null;
+    element.showModal();
+    return () => {
+      element.close();
+      previous?.focus();
+    };
+  }, [open]);
   if (!open) return null;
   return (
-    <div
-      className="fixed inset-0 z-50 grid place-items-end bg-overlay/45 p-0 backdrop-blur-sm sm:place-items-center sm:p-6"
-      role="dialog"
-      aria-modal="true"
+    <dialog
+      ref={dialog}
+      className="fixed inset-0 m-auto max-h-[92dvh] w-[calc(100%-2rem)] max-w-xl overflow-y-auto rounded-xl border-0 bg-card p-5 text-foreground shadow-modal backdrop:bg-overlay/45 backdrop:backdrop-blur-sm sm:p-6"
+      aria-labelledby={titleId}
+      onCancel={(event) => { event.preventDefault(); close.current(); }}
+      onKeyDown={(event) => {
+        if (event.key !== "Tab") return;
+        const controls = Array.from(event.currentTarget.querySelectorAll<HTMLElement>(
+          "a[href],button:not(:disabled),input:not(:disabled),select:not(:disabled),textarea:not(:disabled),[tabindex]",
+        )).filter(element => element.tabIndex >= 0 && element.getClientRects().length > 0);
+        const first = controls[0];
+        const last = controls.at(-1);
+        if (!first) { event.preventDefault(); return; }
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }}
     >
-      <div className="max-h-[92vh] w-full overflow-y-auto rounded-t-2xl bg-card p-5 shadow-modal sm:max-w-xl sm:rounded-xl sm:p-6">
+      <div>
         <div className="mb-5 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-          <h2 className="font-display text-2xl font-semibold">{title}</h2>
+          <h2 id={titleId} className="font-display text-2xl font-semibold">{title}</h2>
           <Button variant="ghost" size="icon" onClick={onClose} aria-label="Fechar">
             <X className="h-5 w-5" />
           </Button>
         </div>
         {children}
       </div>
-    </div>
+    </dialog>
   );
 }
 export function SectionTitle({
   eyebrow,
   title,
   copy,
+  level = 2,
 }: {
   eyebrow?: string;
   title: string;
   copy?: string;
+  level?: 1 | 2;
 }) {
+  const Heading = level === 1 ? "h1" : "h2";
   return (
     <div className="max-w-2xl">
       <span className="text-xs font-bold uppercase text-primary">{eyebrow}</span>
-      <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">{title}</h2>
+      <Heading className="mt-2 font-display text-3xl font-semibold sm:text-4xl">{title}</Heading>
       {copy && <p className="mt-3 text-sm leading-7 text-muted-foreground sm:text-base">{copy}</p>}
     </div>
   );

@@ -12,8 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as TermosRouteImport } from './routes/termos'
 import { Route as TrabalhosRouteImport } from './routes/trabalhos'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAgendaRouteImport } from './routes/admin.agenda'
@@ -22,6 +26,7 @@ import { Route as AdminConfiguracoesRouteImport } from './routes/admin.configura
 import { Route as AdminFinanceiroRouteImport } from './routes/admin.financeiro'
 import { Route as AdminProcedimentosRouteImport } from './routes/admin.procedimentos'
 import { Route as AdminRelatoriosRouteImport } from './routes/admin.relatorios'
+import { Route as AdminTrabalhosRouteImport } from './routes/admin.trabalhos'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -38,6 +43,21 @@ const ContatoRoute = ContatoRouteImport.update({
   path: '/contato',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicosRoute = ServicosRouteImport.update({
   id: '/servicos',
   path: '/servicos',
@@ -46,6 +66,11 @@ const ServicosRoute = ServicosRouteImport.update({
 const SobreRoute = SobreRouteImport.update({
   id: '/sobre',
   path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TrabalhosRoute = TrabalhosRouteImport.update({
@@ -88,13 +113,22 @@ const AdminRelatoriosRoute = AdminRelatoriosRouteImport.update({
   path: '/relatorios',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminTrabalhosRoute = AdminTrabalhosRouteImport.update({
+  id: '/trabalhos',
+  path: '/trabalhos',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/contato': typeof ContatoRoute
+  '/cookies': typeof CookiesRoute
+  '/login': typeof LoginRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/servicos': typeof ServicosRoute
   '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
   '/trabalhos': typeof TrabalhosRoute
   '/admin/agenda': typeof AdminAgendaRoute
   '/admin/clientes': typeof AdminClientesRoute
@@ -102,13 +136,18 @@ export interface FileRoutesByFullPath {
   '/admin/financeiro': typeof AdminFinanceiroRoute
   '/admin/procedimentos': typeof AdminProcedimentosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/trabalhos': typeof AdminTrabalhosRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contato': typeof ContatoRoute
+  '/cookies': typeof CookiesRoute
+  '/login': typeof LoginRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/servicos': typeof ServicosRoute
   '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
   '/trabalhos': typeof TrabalhosRoute
   '/admin/agenda': typeof AdminAgendaRoute
   '/admin/clientes': typeof AdminClientesRoute
@@ -116,6 +155,7 @@ export interface FileRoutesByTo {
   '/admin/financeiro': typeof AdminFinanceiroRoute
   '/admin/procedimentos': typeof AdminProcedimentosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/trabalhos': typeof AdminTrabalhosRoute
   '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
@@ -123,8 +163,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/contato': typeof ContatoRoute
+  '/cookies': typeof CookiesRoute
+  '/login': typeof LoginRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/servicos': typeof ServicosRoute
   '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
   '/trabalhos': typeof TrabalhosRoute
   '/admin/agenda': typeof AdminAgendaRoute
   '/admin/clientes': typeof AdminClientesRoute
@@ -132,6 +176,7 @@ export interface FileRoutesById {
   '/admin/financeiro': typeof AdminFinanceiroRoute
   '/admin/procedimentos': typeof AdminProcedimentosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/trabalhos': typeof AdminTrabalhosRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -140,8 +185,12 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/contato'
+    | '/cookies'
+    | '/login'
+    | '/privacidade'
     | '/servicos'
     | '/sobre'
+    | '/termos'
     | '/trabalhos'
     | '/admin/agenda'
     | '/admin/clientes'
@@ -149,13 +198,18 @@ export interface FileRouteTypes {
     | '/admin/financeiro'
     | '/admin/procedimentos'
     | '/admin/relatorios'
+    | '/admin/trabalhos'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/contato'
+    | '/cookies'
+    | '/login'
+    | '/privacidade'
     | '/servicos'
     | '/sobre'
+    | '/termos'
     | '/trabalhos'
     | '/admin/agenda'
     | '/admin/clientes'
@@ -163,14 +217,19 @@ export interface FileRouteTypes {
     | '/admin/financeiro'
     | '/admin/procedimentos'
     | '/admin/relatorios'
+    | '/admin/trabalhos'
     | '/admin'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/contato'
+    | '/cookies'
+    | '/login'
+    | '/privacidade'
     | '/servicos'
     | '/sobre'
+    | '/termos'
     | '/trabalhos'
     | '/admin/agenda'
     | '/admin/clientes'
@@ -178,6 +237,7 @@ export interface FileRouteTypes {
     | '/admin/financeiro'
     | '/admin/procedimentos'
     | '/admin/relatorios'
+    | '/admin/trabalhos'
     | '/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -185,8 +245,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   ContatoRoute: typeof ContatoRoute
+  CookiesRoute: typeof CookiesRoute
+  LoginRoute: typeof LoginRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
   ServicosRoute: typeof ServicosRoute
   SobreRoute: typeof SobreRoute
+  TermosRoute: typeof TermosRoute
   TrabalhosRoute: typeof TrabalhosRoute
 }
 
@@ -213,6 +277,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContatoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/servicos': {
       id: '/servicos'
       path: '/servicos'
@@ -225,6 +310,13 @@ declare module '@tanstack/react-router' {
       path: '/sobre'
       fullPath: '/sobre'
       preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/trabalhos': {
@@ -283,6 +375,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRelatoriosRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/trabalhos': {
+      id: '/admin/trabalhos'
+      path: '/trabalhos'
+      fullPath: '/admin/trabalhos'
+      preLoaderRoute: typeof AdminTrabalhosRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
@@ -293,6 +392,7 @@ interface AdminRouteChildren {
   AdminFinanceiroRoute: typeof AdminFinanceiroRoute
   AdminProcedimentosRoute: typeof AdminProcedimentosRoute
   AdminRelatoriosRoute: typeof AdminRelatoriosRoute
+  AdminTrabalhosRoute: typeof AdminTrabalhosRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
@@ -303,6 +403,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminFinanceiroRoute: AdminFinanceiroRoute,
   AdminProcedimentosRoute: AdminProcedimentosRoute,
   AdminRelatoriosRoute: AdminRelatoriosRoute,
+  AdminTrabalhosRoute: AdminTrabalhosRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
@@ -312,16 +413,20 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   ContatoRoute: ContatoRoute,
+  CookiesRoute: CookiesRoute,
+  LoginRoute: LoginRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
   ServicosRoute: ServicosRoute,
   SobreRoute: SobreRoute,
+  TermosRoute: TermosRoute,
   TrabalhosRoute: TrabalhosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
-import type { getRouter } from '../front/src/router.tsx'
-import type { startInstance } from '../front/src/start.ts'
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
