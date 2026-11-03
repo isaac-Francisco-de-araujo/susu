@@ -17,7 +17,7 @@ import { deleteFinancialEntry, financeStore, saveFinancialEntry } from "@/lib/st
 import { inRange, localDate, periodRange, total } from "@/lib/analytics";
 import { downloadBlob, financialCsv } from "@/lib/downloads";
 
-export const Route = createFileRoute("/admin/financeiro")({
+export const Route = createFileRoute("/brigor/financeiro")({
   head: () => ({ meta: [{ title: "Financeiro | Painel profissional" }] }),
   component: Page,
 });

@@ -33,7 +33,7 @@ function Login() {
               });
               resetCsrf();
               sessionStorage.removeItem("studio-auth");
-              window.location.assign("/admin");
+              window.location.assign("/brigor");
             } catch (reason) {
               setError(reason instanceof Error ? reason.message : "Não foi possível entrar.");
             } finally {

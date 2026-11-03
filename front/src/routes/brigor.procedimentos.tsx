@@ -9,13 +9,13 @@ import nailGallery from "@/assets/nail-gallery.jpg";
 import { PhotoField } from "@/components/photo-field";
 import { mediaUrl } from "@/lib/api";
 
-export const Route = createFileRoute("/admin/procedimentos")({
+export const Route = createFileRoute("/brigor/procedimentos")({
   head: () => ({
     meta: [
-      { title: "Procedimentos | Studio Bella" },
+      { title: "Procedimentos | Suellen studios" },
       { name: "description", content: "Gestão dos serviços, preços e durações." },
-      { property: "og:title", content: "Procedimentos | Studio Bella" },
-      { property: "og:description", content: "Catálogo de procedimentos do Studio Bella." },
+      { property: "og:title", content: "Procedimentos | Suellen studios" },
+      { property: "og:description", content: "Catálogo de procedimentos do Suellen studios." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

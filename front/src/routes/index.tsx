@@ -10,7 +10,7 @@ import {
   Star,
 } from "lucide-react";
 import heroImage from "@/assets/studio-hero.jpg";
-import professionalImage from "@/assets/professional.jpg";
+import professionalImage from "@/assets/suellen-profissional.jpeg";
 import { PublicLayout } from "@/components/public-shell";
 import { ServiceGrid } from "@/components/service-grid";
 import { SectionTitle } from "@/components/ui-kit";
@@ -146,10 +146,10 @@ function Home() {
           <div className="relative mx-auto max-w-md">
             <img
               src={professionalImage}
-              width={1024}
-              height={1280}
+              width={1080}
+              height={1076}
               loading="lazy"
-              alt="Imagem ilustrativa de uma profissional de manicure"
+              alt={`Foto de ${settings.professionalName}, manicure e pedicure`}
               className="aspect-[4/5] w-full rounded-xl object-cover shadow-card"
             />
           </div>

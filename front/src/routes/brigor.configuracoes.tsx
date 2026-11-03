@@ -9,7 +9,7 @@ import { downloadBackup } from "@/lib/api";
 import { downloadBlob } from "@/lib/downloads";
 import { localDate } from "@/lib/analytics";
 
-export const Route = createFileRoute("/admin/configuracoes")({ component: Page });
+export const Route = createFileRoute("/brigor/configuracoes")({ component: Page });
 function Page() {
   const { data, ready, loading, saving, error } = settingsStore.use();
   const [success, setSuccess] = useState(false);

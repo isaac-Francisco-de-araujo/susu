@@ -50,7 +50,7 @@ function protectResponse(response: Response, request: Request) {
   headers.set("Referrer-Policy", "no-referrer");
   headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
   const path = new URL(request.url).pathname;
-  if (path.startsWith("/admin") || path === "/login") {
+  if (path === "/brigor" || path.startsWith("/brigor/") || path === "/login") {
     headers.set("Cache-Control", "no-store");
     headers.set("X-Robots-Tag", "noindex, nofollow");
   }

@@ -27,7 +27,7 @@ declare global {
 export function reportLovableError(error: unknown, context: Record<string, unknown> = {}) {
   if (typeof window === "undefined") return;
   // Editor diagnostics must never include customer, financial or credential data.
-  if (window.location.pathname.startsWith("/admin") || window.location.pathname === "/login") return;
+  if (window.location.pathname.startsWith("/brigor") || window.location.pathname === "/login") return;
   error = new Error("Falha de interface pública");
   window.__lovableEvents?.captureException?.(
     error,

@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LegalPage } from "@/components/legal-page";
 
 export const Route = createFileRoute("/cookies")({
-  head: () => ({ meta: [{ title: "Política de Cookies | Pink Petal Studio" }] }),
+  head: () => ({ meta: [{ title: "Política de Cookies | Suellen studios" }] }),
   component: Cookies,
 });
 

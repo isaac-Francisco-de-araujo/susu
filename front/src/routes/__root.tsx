@@ -79,7 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "referrer", content: "no-referrer" },
-      { title: "Pink Petal Studio" },
+      { title: "Suellen studios" },
       { name: "description", content: "Studio de manicure e pedicure." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

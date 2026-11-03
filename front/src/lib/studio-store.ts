@@ -13,7 +13,7 @@ import type {
 } from "./mock-data";
 
 export const settingsStore = createRemoteStore<StudioSettings>("/settings", {
-  studioName: "Pink Petal Studio",
+  studioName: "Suellen studios",
   professionalName: "",
   whatsapp: "",
   instagram: "",

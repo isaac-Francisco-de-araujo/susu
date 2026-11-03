@@ -9,7 +9,7 @@ import { deleteGalleryPhoto, galleryStore, saveGalleryPhoto } from "@/lib/studio
 import { mediaUrl } from "@/lib/api";
 import type { GalleryPhoto } from "@/lib/mock-data";
 
-export const Route = createFileRoute("/admin/trabalhos")({ component: Page });
+export const Route = createFileRoute("/brigor/trabalhos")({ component: Page });
 function Page() {
   const { data: photos, loading, saving, error } = galleryStore.use();
   const [modal, setModal] = useState(false);

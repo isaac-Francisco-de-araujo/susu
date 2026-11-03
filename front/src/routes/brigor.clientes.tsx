@@ -10,7 +10,7 @@ import { api } from "@/lib/api";
 import { whatsappLink } from "@/lib/config";
 import { clientsWithoutReturn } from "@/lib/client-follow-up";
 
-export const Route = createFileRoute("/admin/clientes")({
+export const Route = createFileRoute("/brigor/clientes")({
   validateSearch: (
     search: Record<string, unknown>,
   ): { novo?: boolean | undefined; retorno?: boolean | undefined } => ({
@@ -339,7 +339,7 @@ function Page() {
               </div>
             ))}
             <div className="mt-5 flex flex-wrap gap-3">
-              <Link to="/admin/agenda" className="font-bold text-primary">
+              <Link to="/brigor/agenda" className="font-bold text-primary">
                 Registrar atendimento na agenda →
               </Link>
               <a

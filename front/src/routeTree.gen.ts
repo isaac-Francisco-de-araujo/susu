@@ -10,7 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AdminRouteImport } from './routes/admin'
+import { Route as BrigorRouteImport } from './routes/brigor'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as LoginRouteImport } from './routes/login'
@@ -19,23 +19,23 @@ import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as TermosRouteImport } from './routes/termos'
 import { Route as TrabalhosRouteImport } from './routes/trabalhos'
-import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as AdminAgendaRouteImport } from './routes/admin.agenda'
-import { Route as AdminClientesRouteImport } from './routes/admin.clientes'
-import { Route as AdminConfiguracoesRouteImport } from './routes/admin.configuracoes'
-import { Route as AdminFinanceiroRouteImport } from './routes/admin.financeiro'
-import { Route as AdminProcedimentosRouteImport } from './routes/admin.procedimentos'
-import { Route as AdminRelatoriosRouteImport } from './routes/admin.relatorios'
-import { Route as AdminTrabalhosRouteImport } from './routes/admin.trabalhos'
+import { Route as BrigorIndexRouteImport } from './routes/brigor.index'
+import { Route as BrigorAgendaRouteImport } from './routes/brigor.agenda'
+import { Route as BrigorClientesRouteImport } from './routes/brigor.clientes'
+import { Route as BrigorConfiguracoesRouteImport } from './routes/brigor.configuracoes'
+import { Route as BrigorFinanceiroRouteImport } from './routes/brigor.financeiro'
+import { Route as BrigorProcedimentosRouteImport } from './routes/brigor.procedimentos'
+import { Route as BrigorRelatoriosRouteImport } from './routes/brigor.relatorios'
+import { Route as BrigorTrabalhosRouteImport } from './routes/brigor.trabalhos'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const BrigorRoute = BrigorRouteImport.update({
+  id: '/brigor',
+  path: '/brigor',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContatoRoute = ContatoRouteImport.update({
@@ -78,50 +78,50 @@ const TrabalhosRoute = TrabalhosRouteImport.update({
   path: '/trabalhos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminIndexRoute = AdminIndexRouteImport.update({
+const BrigorIndexRoute = BrigorIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AdminRoute,
+  getParentRoute: () => BrigorRoute,
 } as any)
-const AdminAgendaRoute = AdminAgendaRouteImport.update({
+const BrigorAgendaRoute = BrigorAgendaRouteImport.update({
   id: '/agenda',
   path: '/agenda',
-  getParentRoute: () => AdminRoute,
+  getParentRoute: () => BrigorRoute,
 } as any)
-const AdminClientesRoute = AdminClientesRouteImport.update({
+const BrigorClientesRoute = BrigorClientesRouteImport.update({
   id: '/clientes',
   path: '/clientes',
-  getParentRoute: () => AdminRoute,
+  getParentRoute: () => BrigorRoute,
 } as any)
-const AdminConfiguracoesRoute = AdminConfiguracoesRouteImport.update({
+const BrigorConfiguracoesRoute = BrigorConfiguracoesRouteImport.update({
   id: '/configuracoes',
   path: '/configuracoes',
-  getParentRoute: () => AdminRoute,
+  getParentRoute: () => BrigorRoute,
 } as any)
-const AdminFinanceiroRoute = AdminFinanceiroRouteImport.update({
+const BrigorFinanceiroRoute = BrigorFinanceiroRouteImport.update({
   id: '/financeiro',
   path: '/financeiro',
-  getParentRoute: () => AdminRoute,
+  getParentRoute: () => BrigorRoute,
 } as any)
-const AdminProcedimentosRoute = AdminProcedimentosRouteImport.update({
+const BrigorProcedimentosRoute = BrigorProcedimentosRouteImport.update({
   id: '/procedimentos',
   path: '/procedimentos',
-  getParentRoute: () => AdminRoute,
+  getParentRoute: () => BrigorRoute,
 } as any)
-const AdminRelatoriosRoute = AdminRelatoriosRouteImport.update({
+const BrigorRelatoriosRoute = BrigorRelatoriosRouteImport.update({
   id: '/relatorios',
   path: '/relatorios',
-  getParentRoute: () => AdminRoute,
+  getParentRoute: () => BrigorRoute,
 } as any)
-const AdminTrabalhosRoute = AdminTrabalhosRouteImport.update({
+const BrigorTrabalhosRoute = BrigorTrabalhosRouteImport.update({
   id: '/trabalhos',
   path: '/trabalhos',
-  getParentRoute: () => AdminRoute,
+  getParentRoute: () => BrigorRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
+  '/brigor': typeof BrigorRouteWithChildren
   '/contato': typeof ContatoRoute
   '/cookies': typeof CookiesRoute
   '/login': typeof LoginRoute
@@ -130,14 +130,14 @@ export interface FileRoutesByFullPath {
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
   '/trabalhos': typeof TrabalhosRoute
-  '/admin/agenda': typeof AdminAgendaRoute
-  '/admin/clientes': typeof AdminClientesRoute
-  '/admin/configuracoes': typeof AdminConfiguracoesRoute
-  '/admin/financeiro': typeof AdminFinanceiroRoute
-  '/admin/procedimentos': typeof AdminProcedimentosRoute
-  '/admin/relatorios': typeof AdminRelatoriosRoute
-  '/admin/trabalhos': typeof AdminTrabalhosRoute
-  '/admin/': typeof AdminIndexRoute
+  '/brigor/agenda': typeof BrigorAgendaRoute
+  '/brigor/clientes': typeof BrigorClientesRoute
+  '/brigor/configuracoes': typeof BrigorConfiguracoesRoute
+  '/brigor/financeiro': typeof BrigorFinanceiroRoute
+  '/brigor/procedimentos': typeof BrigorProcedimentosRoute
+  '/brigor/relatorios': typeof BrigorRelatoriosRoute
+  '/brigor/trabalhos': typeof BrigorTrabalhosRoute
+  '/brigor/': typeof BrigorIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -149,19 +149,19 @@ export interface FileRoutesByTo {
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
   '/trabalhos': typeof TrabalhosRoute
-  '/admin/agenda': typeof AdminAgendaRoute
-  '/admin/clientes': typeof AdminClientesRoute
-  '/admin/configuracoes': typeof AdminConfiguracoesRoute
-  '/admin/financeiro': typeof AdminFinanceiroRoute
-  '/admin/procedimentos': typeof AdminProcedimentosRoute
-  '/admin/relatorios': typeof AdminRelatoriosRoute
-  '/admin/trabalhos': typeof AdminTrabalhosRoute
-  '/admin': typeof AdminIndexRoute
+  '/brigor/agenda': typeof BrigorAgendaRoute
+  '/brigor/clientes': typeof BrigorClientesRoute
+  '/brigor/configuracoes': typeof BrigorConfiguracoesRoute
+  '/brigor/financeiro': typeof BrigorFinanceiroRoute
+  '/brigor/procedimentos': typeof BrigorProcedimentosRoute
+  '/brigor/relatorios': typeof BrigorRelatoriosRoute
+  '/brigor/trabalhos': typeof BrigorTrabalhosRoute
+  '/brigor': typeof BrigorIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
+  '/brigor': typeof BrigorRouteWithChildren
   '/contato': typeof ContatoRoute
   '/cookies': typeof CookiesRoute
   '/login': typeof LoginRoute
@@ -170,20 +170,20 @@ export interface FileRoutesById {
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
   '/trabalhos': typeof TrabalhosRoute
-  '/admin/agenda': typeof AdminAgendaRoute
-  '/admin/clientes': typeof AdminClientesRoute
-  '/admin/configuracoes': typeof AdminConfiguracoesRoute
-  '/admin/financeiro': typeof AdminFinanceiroRoute
-  '/admin/procedimentos': typeof AdminProcedimentosRoute
-  '/admin/relatorios': typeof AdminRelatoriosRoute
-  '/admin/trabalhos': typeof AdminTrabalhosRoute
-  '/admin/': typeof AdminIndexRoute
+  '/brigor/agenda': typeof BrigorAgendaRoute
+  '/brigor/clientes': typeof BrigorClientesRoute
+  '/brigor/configuracoes': typeof BrigorConfiguracoesRoute
+  '/brigor/financeiro': typeof BrigorFinanceiroRoute
+  '/brigor/procedimentos': typeof BrigorProcedimentosRoute
+  '/brigor/relatorios': typeof BrigorRelatoriosRoute
+  '/brigor/trabalhos': typeof BrigorTrabalhosRoute
+  '/brigor/': typeof BrigorIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin'
+    | '/brigor'
     | '/contato'
     | '/cookies'
     | '/login'
@@ -192,14 +192,14 @@ export interface FileRouteTypes {
     | '/sobre'
     | '/termos'
     | '/trabalhos'
-    | '/admin/agenda'
-    | '/admin/clientes'
-    | '/admin/configuracoes'
-    | '/admin/financeiro'
-    | '/admin/procedimentos'
-    | '/admin/relatorios'
-    | '/admin/trabalhos'
-    | '/admin/'
+    | '/brigor/agenda'
+    | '/brigor/clientes'
+    | '/brigor/configuracoes'
+    | '/brigor/financeiro'
+    | '/brigor/procedimentos'
+    | '/brigor/relatorios'
+    | '/brigor/trabalhos'
+    | '/brigor/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -211,18 +211,18 @@ export interface FileRouteTypes {
     | '/sobre'
     | '/termos'
     | '/trabalhos'
-    | '/admin/agenda'
-    | '/admin/clientes'
-    | '/admin/configuracoes'
-    | '/admin/financeiro'
-    | '/admin/procedimentos'
-    | '/admin/relatorios'
-    | '/admin/trabalhos'
-    | '/admin'
+    | '/brigor/agenda'
+    | '/brigor/clientes'
+    | '/brigor/configuracoes'
+    | '/brigor/financeiro'
+    | '/brigor/procedimentos'
+    | '/brigor/relatorios'
+    | '/brigor/trabalhos'
+    | '/brigor'
   id:
     | '__root__'
     | '/'
-    | '/admin'
+    | '/brigor'
     | '/contato'
     | '/cookies'
     | '/login'
@@ -231,19 +231,19 @@ export interface FileRouteTypes {
     | '/sobre'
     | '/termos'
     | '/trabalhos'
-    | '/admin/agenda'
-    | '/admin/clientes'
-    | '/admin/configuracoes'
-    | '/admin/financeiro'
-    | '/admin/procedimentos'
-    | '/admin/relatorios'
-    | '/admin/trabalhos'
-    | '/admin/'
+    | '/brigor/agenda'
+    | '/brigor/clientes'
+    | '/brigor/configuracoes'
+    | '/brigor/financeiro'
+    | '/brigor/procedimentos'
+    | '/brigor/relatorios'
+    | '/brigor/trabalhos'
+    | '/brigor/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRouteWithChildren
+  BrigorRoute: typeof BrigorRouteWithChildren
   ContatoRoute: typeof ContatoRoute
   CookiesRoute: typeof CookiesRoute
   LoginRoute: typeof LoginRoute
@@ -263,11 +263,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
+    '/brigor': {
+      id: '/brigor'
+      path: '/brigor'
+      fullPath: '/brigor'
+      preLoaderRoute: typeof BrigorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contato': {
@@ -326,92 +326,93 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrabalhosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/': {
-      id: '/admin/'
+    '/brigor/': {
+      id: '/brigor/'
       path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof AdminRoute
+      fullPath: '/brigor/'
+      preLoaderRoute: typeof BrigorIndexRouteImport
+      parentRoute: typeof BrigorRoute
     }
-    '/admin/agenda': {
-      id: '/admin/agenda'
+    '/brigor/agenda': {
+      id: '/brigor/agenda'
       path: '/agenda'
-      fullPath: '/admin/agenda'
-      preLoaderRoute: typeof AdminAgendaRouteImport
-      parentRoute: typeof AdminRoute
+      fullPath: '/brigor/agenda'
+      preLoaderRoute: typeof BrigorAgendaRouteImport
+      parentRoute: typeof BrigorRoute
     }
-    '/admin/clientes': {
-      id: '/admin/clientes'
+    '/brigor/clientes': {
+      id: '/brigor/clientes'
       path: '/clientes'
-      fullPath: '/admin/clientes'
-      preLoaderRoute: typeof AdminClientesRouteImport
-      parentRoute: typeof AdminRoute
+      fullPath: '/brigor/clientes'
+      preLoaderRoute: typeof BrigorClientesRouteImport
+      parentRoute: typeof BrigorRoute
     }
-    '/admin/configuracoes': {
-      id: '/admin/configuracoes'
+    '/brigor/configuracoes': {
+      id: '/brigor/configuracoes'
       path: '/configuracoes'
-      fullPath: '/admin/configuracoes'
-      preLoaderRoute: typeof AdminConfiguracoesRouteImport
-      parentRoute: typeof AdminRoute
+      fullPath: '/brigor/configuracoes'
+      preLoaderRoute: typeof BrigorConfiguracoesRouteImport
+      parentRoute: typeof BrigorRoute
     }
-    '/admin/financeiro': {
-      id: '/admin/financeiro'
+    '/brigor/financeiro': {
+      id: '/brigor/financeiro'
       path: '/financeiro'
-      fullPath: '/admin/financeiro'
-      preLoaderRoute: typeof AdminFinanceiroRouteImport
-      parentRoute: typeof AdminRoute
+      fullPath: '/brigor/financeiro'
+      preLoaderRoute: typeof BrigorFinanceiroRouteImport
+      parentRoute: typeof BrigorRoute
     }
-    '/admin/procedimentos': {
-      id: '/admin/procedimentos'
+    '/brigor/procedimentos': {
+      id: '/brigor/procedimentos'
       path: '/procedimentos'
-      fullPath: '/admin/procedimentos'
-      preLoaderRoute: typeof AdminProcedimentosRouteImport
-      parentRoute: typeof AdminRoute
+      fullPath: '/brigor/procedimentos'
+      preLoaderRoute: typeof BrigorProcedimentosRouteImport
+      parentRoute: typeof BrigorRoute
     }
-    '/admin/relatorios': {
-      id: '/admin/relatorios'
+    '/brigor/relatorios': {
+      id: '/brigor/relatorios'
       path: '/relatorios'
-      fullPath: '/admin/relatorios'
-      preLoaderRoute: typeof AdminRelatoriosRouteImport
-      parentRoute: typeof AdminRoute
+      fullPath: '/brigor/relatorios'
+      preLoaderRoute: typeof BrigorRelatoriosRouteImport
+      parentRoute: typeof BrigorRoute
     }
-    '/admin/trabalhos': {
-      id: '/admin/trabalhos'
+    '/brigor/trabalhos': {
+      id: '/brigor/trabalhos'
       path: '/trabalhos'
-      fullPath: '/admin/trabalhos'
-      preLoaderRoute: typeof AdminTrabalhosRouteImport
-      parentRoute: typeof AdminRoute
+      fullPath: '/brigor/trabalhos'
+      preLoaderRoute: typeof BrigorTrabalhosRouteImport
+      parentRoute: typeof BrigorRoute
     }
   }
 }
 
-interface AdminRouteChildren {
-  AdminAgendaRoute: typeof AdminAgendaRoute
-  AdminClientesRoute: typeof AdminClientesRoute
-  AdminConfiguracoesRoute: typeof AdminConfiguracoesRoute
-  AdminFinanceiroRoute: typeof AdminFinanceiroRoute
-  AdminProcedimentosRoute: typeof AdminProcedimentosRoute
-  AdminRelatoriosRoute: typeof AdminRelatoriosRoute
-  AdminTrabalhosRoute: typeof AdminTrabalhosRoute
-  AdminIndexRoute: typeof AdminIndexRoute
+interface BrigorRouteChildren {
+  BrigorAgendaRoute: typeof BrigorAgendaRoute
+  BrigorClientesRoute: typeof BrigorClientesRoute
+  BrigorConfiguracoesRoute: typeof BrigorConfiguracoesRoute
+  BrigorFinanceiroRoute: typeof BrigorFinanceiroRoute
+  BrigorProcedimentosRoute: typeof BrigorProcedimentosRoute
+  BrigorRelatoriosRoute: typeof BrigorRelatoriosRoute
+  BrigorTrabalhosRoute: typeof BrigorTrabalhosRoute
+  BrigorIndexRoute: typeof BrigorIndexRoute
 }
 
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminAgendaRoute: AdminAgendaRoute,
-  AdminClientesRoute: AdminClientesRoute,
-  AdminConfiguracoesRoute: AdminConfiguracoesRoute,
-  AdminFinanceiroRoute: AdminFinanceiroRoute,
-  AdminProcedimentosRoute: AdminProcedimentosRoute,
-  AdminRelatoriosRoute: AdminRelatoriosRoute,
-  AdminTrabalhosRoute: AdminTrabalhosRoute,
-  AdminIndexRoute: AdminIndexRoute,
+const BrigorRouteChildren: BrigorRouteChildren = {
+  BrigorAgendaRoute: BrigorAgendaRoute,
+  BrigorClientesRoute: BrigorClientesRoute,
+  BrigorConfiguracoesRoute: BrigorConfiguracoesRoute,
+  BrigorFinanceiroRoute: BrigorFinanceiroRoute,
+  BrigorProcedimentosRoute: BrigorProcedimentosRoute,
+  BrigorRelatoriosRoute: BrigorRelatoriosRoute,
+  BrigorTrabalhosRoute: BrigorTrabalhosRoute,
+  BrigorIndexRoute: BrigorIndexRoute,
 }
 
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+const BrigorRouteWithChildren =
+  BrigorRoute._addFileChildren(BrigorRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRouteWithChildren,
+  BrigorRoute: BrigorRouteWithChildren,
   ContatoRoute: ContatoRoute,
   CookiesRoute: CookiesRoute,
   LoginRoute: LoginRoute,

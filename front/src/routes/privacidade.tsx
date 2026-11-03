@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { LegalPage } from "@/components/legal-page";
 
 export const Route = createFileRoute("/privacidade")({
-  head: () => ({ meta: [{ title: "Política de Privacidade | Pink Petal Studio" }] }),
+  head: () => ({ meta: [{ title: "Política de Privacidade | Suellen studios" }] }),
   component: Privacy,
 });
 

@@ -129,13 +129,6 @@ export function PublicFooter() {
               >
                 <Instagram className="h-4 w-4" />
               </a>}
-              <a
-                href={whatsappLink(bookingMessage())}
-                aria-label="WhatsApp"
-                className="grid h-10 w-10 place-items-center rounded-full border border-background/15"
-              >
-                W
-              </a>
             </div>
           </div>
         </div>

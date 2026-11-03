@@ -38,7 +38,7 @@ async function request(path: string, init?: RequestInit): Promise<Response> {
       response.status === 401 &&
       path !== "/auth/me" &&
       typeof window !== "undefined" &&
-      window.location.pathname.startsWith("/admin")
+      window.location.pathname.startsWith("/brigor")
     )
       redirectToLogin();
     if (response.status === 403) resetCsrf();

@@ -20,7 +20,7 @@ import {
 import { useServicesState } from "@/lib/services-store";
 import { whatsappLink } from "@/lib/config";
 
-export const Route = createFileRoute("/admin/agenda")({
+export const Route = createFileRoute("/brigor/agenda")({
   validateSearch: (search: Record<string, unknown>): { novo?: boolean | undefined } => ({
     novo: search["novo"] === true || search["novo"] === "true" ? true : undefined,
   }),
@@ -134,7 +134,7 @@ function Page() {
       {!clients.loading && !clients.data.length && (
         <p className="mb-4 text-sm">
           Cadastre uma cliente em{" "}
-          <Link to="/admin/clientes" className="font-bold text-primary">
+          <Link to="/brigor/clientes" className="font-bold text-primary">
             Clientes
           </Link>{" "}
           para criar um agendamento.
@@ -143,7 +143,7 @@ function Page() {
       {!services.loading && !services.items.some((item) => item.active) && (
         <p className="mb-4 text-sm">
           Cadastre um procedimento ativo em{" "}
-          <Link to="/admin/procedimentos" className="font-bold text-primary">
+          <Link to="/brigor/procedimentos" className="font-bold text-primary">
             Procedimentos
           </Link>
           .

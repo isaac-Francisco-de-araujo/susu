@@ -24,7 +24,7 @@ import { clientsWithoutReturn } from "@/lib/client-follow-up";
 import type { AppointmentStatus, SavedAppointment } from "@/lib/mock-data";
 import { inRange, localDate, periodRange, procedureStats, total } from "@/lib/analytics";
 
-export const Route = createFileRoute("/admin/")({
+export const Route = createFileRoute("/brigor/")({
   head: () => ({ meta: [{ title: "Dashboard | Painel profissional" }] }),
   component: Page,
 });
@@ -70,7 +70,7 @@ function Page() {
       action={
         <div className="flex flex-wrap gap-2">
           <Link
-            to="/admin/agenda"
+            to="/brigor/agenda"
             search={{ novo: true }}
             className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-3 text-xs font-bold text-primary-foreground"
           >
@@ -78,7 +78,7 @@ function Page() {
             Novo atendimento
           </Link>
           <Link
-            to="/admin/clientes"
+            to="/brigor/clientes"
             search={{ novo: true }}
             className="inline-flex h-10 items-center gap-2 rounded-lg border border-border bg-card px-3 text-xs font-bold"
           >
@@ -118,7 +118,7 @@ function Page() {
         <Card className="p-5 sm:p-6">
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl font-semibold">Hoje e próximos atendimentos</h2>
-            <Link to="/admin/agenda" className="text-sm font-bold text-primary">
+            <Link to="/brigor/agenda" className="text-sm font-bold text-primary">
               Ver agenda
             </Link>
           </div>
@@ -245,7 +245,7 @@ function Page() {
               </p>
             </div>
             <Link
-              to="/admin/clientes"
+              to="/brigor/clientes"
               search={{ retorno: true }}
               className="text-sm font-bold text-primary"
             >

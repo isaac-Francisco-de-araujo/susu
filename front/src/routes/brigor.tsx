@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { api } from "@/lib/api";
 
-export const Route = createFileRoute("/admin")({
+export const Route = createFileRoute("/brigor")({
   ssr: false,
   beforeLoad: async () => {
     if (typeof window === "undefined") return;

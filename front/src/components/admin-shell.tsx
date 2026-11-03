@@ -18,14 +18,14 @@ import { Button } from "./ui-kit";
 import { settingsStore } from "@/lib/studio-store";
 import { logout } from "@/lib/auth";
 const items = [
-  ["Dashboard", "/admin", LayoutDashboard],
-  ["Agenda", "/admin/agenda", CalendarDays],
-  ["Clientes", "/admin/clientes", UsersRound],
-  ["Procedimentos", "/admin/procedimentos", Sparkles],
-  ["Meus trabalhos", "/admin/trabalhos", Images],
-  ["Financeiro", "/admin/financeiro", WalletCards],
-  ["Relatórios", "/admin/relatorios", BarChart3],
-  ["Configurações", "/admin/configuracoes", Settings],
+  ["Dashboard", "/brigor", LayoutDashboard],
+  ["Agenda", "/brigor/agenda", CalendarDays],
+  ["Clientes", "/brigor/clientes", UsersRound],
+  ["Procedimentos", "/brigor/procedimentos", Sparkles],
+  ["Meus trabalhos", "/brigor/trabalhos", Images],
+  ["Financeiro", "/brigor/financeiro", WalletCards],
+  ["Relatórios", "/brigor/relatorios", BarChart3],
+  ["Configurações", "/brigor/configuracoes", Settings],
 ] as const;
 export function AdminShell({
   title,
@@ -102,7 +102,7 @@ export function AdminShell({
         </p>
         <nav aria-label="Painel profissional" className="grid shrink-0 gap-1">
           {items.map(([label, to, Icon]) => {
-            const active = to === "/admin" ? path === to : path.startsWith(to);
+            const active = to === "/brigor" ? path === to : path.startsWith(to);
             return (
               <Link
                 key={to}

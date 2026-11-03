@@ -9,7 +9,7 @@ import { money } from "@/lib/mock-data";
 import { appointmentsStore, clientsStore } from "@/lib/studio-store";
 import { localDate, procedureStats } from "@/lib/analytics";
 
-export const Route = createFileRoute("/admin/relatorios")({
+export const Route = createFileRoute("/brigor/relatorios")({
   head: () => ({ meta: [{ title: "Relatórios | Painel profissional" }] }),
   component: Page,
 });
